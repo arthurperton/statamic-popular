@@ -1,0 +1,19 @@
+{
+    "name": "arthurperton/statamic-popularity",
+    "autoload": {
+        "psr-4": {
+            "Statamic\\Addons\\Popularity\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Popularity",
+            "description": "Popularity addon"
+        },
+        "laravel": {
+            "providers": [
+                "Statamic\\Addons\\Popularity\\ServiceProvider"
+            ]
+        }
+    }
+}
