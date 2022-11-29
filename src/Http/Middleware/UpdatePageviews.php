@@ -9,7 +9,7 @@ use Statamic\Statamic;
 use Statamic\Structures\Page;
 use Statamic\Support\Str;
 
-class Popular
+class UpdatePageviews
 {
     /**
      * Handle an incoming request.
@@ -29,8 +29,10 @@ class Popular
                 $entry = $entry->entry();
             }
 
-            $entry->set('pageviews', $entry->get('pageviews', 0) + 1)->save();
+            /** @var \Statamic\Entries\Entry $entry */
+            $entry->set('pageviews', $entry->get('pageviews', 0) + 1);
             $entry->set('has_pageviews', true);
+            $entry->save();
         }
 
         return $next($request);
@@ -45,11 +47,7 @@ class Popular
         }
 
         if (Str::contains($url, '?')) {
-            $url = Str::after($url, '?');
-        }
-
-        if (Str::endsWith($url, '/') && Str::length($url) > 1) {
-            $url = rtrim($url, '/');
+            $url = Str::before($url, '?');
         }
 
         return $url;
