@@ -3,6 +3,7 @@
 namespace ArthurPerton\Statamic\Addons\Popular;
 
 use ArthurPerton\Statamic\Addons\Popular\Http\Middleware\UpdatePageviews;
+use ArthurPerton\Statamic\Addons\Popular\Listeners\AddPageviewsField;
 use ArthurPerton\Statamic\Addons\Popular\Listeners\InjectPageViews;
 use ArthurPerton\Statamic\Addons\Popular\Tags\Popular;
 use Statamic\Facades\Collection;
@@ -17,6 +18,9 @@ class ServiceProvider extends AddonServiceProvider
         ],
         \Statamic\Events\CollectionUpdated::class => [
             InjectPageViews::class,
+        ],
+        \Statamic\Events\EntryBlueprintFound::class => [
+            AddPageviewsField::class,
         ],
     ];
 
