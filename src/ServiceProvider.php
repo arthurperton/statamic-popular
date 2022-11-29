@@ -1,15 +1,15 @@
 <?php
 
-namespace Statamic\Addons\Popularity;
+namespace ArthurPerton\Statamic\Addons\Popular;
 
-use Statamic\Addons\Popularity\Http\Middleware\Popularity;
+use ArthurPerton\Statamic\Addons\Popular\Http\Middleware\Popular;
 use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
 {
     protected $middlewareGroups = [
         'web' => [
-            Popularity::class
+            Popular::class,
         ],
     ];
 }

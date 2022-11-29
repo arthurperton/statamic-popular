@@ -1,19 +1,30 @@
 {
-    "name": "arthurperton/statamic-popularity",
-    "autoload": {
-        "psr-4": {
-            "Statamic\\Addons\\Popularity\\": "src"
-        }
-    },
-    "extra": {
-        "statamic": {
-            "name": "Popularity",
-            "description": "Popularity addon"
-        },
-        "laravel": {
-            "providers": [
-                "Statamic\\Addons\\Popularity\\ServiceProvider"
-            ]
-        }
+  "name": "arthurperton/statamic-popular",
+  "autoload": {
+    "psr-4": {
+      "ArthurPerton\\Statamic\\Addons\\Popular\\": "src"
     }
+  },
+  "extra": {
+    "statamic": {
+      "name": "Popular",
+      "description": "Popular addon"
+    },
+    "laravel": {
+      "providers": [
+        "ArthurPerton\\Statamic\\Addons\\Popular\\ServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.2",
+    "statamic/cms": "^3.3",
+    "phpunit/phpunit": "^9.5",
+    "orchestra/testbench": "^7.13"
+  },
+  "config": {
+    "allow-plugins": {
+      "pixelfear/composer-dist-plugin": true
+    }
+  }
 }

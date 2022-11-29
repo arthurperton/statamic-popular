@@ -1,6 +1,6 @@
 <?php
 
-namespace Statamic\Addons\Popularity\Http\Middleware;
+namespace ArthurPerton\Statamic\Addons\Popular\Http\Middleware;
 
 use Closure;
 use Statamic\Facades\Entry;
@@ -9,7 +9,7 @@ use Statamic\Statamic;
 use Statamic\Structures\Page;
 use Statamic\Support\Str;
 
-class Popularity
+class Popular
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,10 @@ class Popularity
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
-     *
      */
     public function handle($request, Closure $next)
     {
-        if (! env('POPULARITY_PAGEVIEWS_ENABLED', true)) {
+        if (! env('POPULAR_PAGEVIEWS_ENABLED', true)) {
             return $next($request);
         }
 
