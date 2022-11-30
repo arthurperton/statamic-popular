@@ -3,7 +3,7 @@
 namespace ArthurPerton\Statamic\Addons\Popular\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class PageviewController
 {
@@ -14,9 +14,13 @@ class PageviewController
     public function store(Request $request)
     {
         $url = $request->post('url');
-    }
 
-    public function createDatabase()
-    {
+        \Log::debug($url);
+
+        $start = microtime(true);
+        $db = DB::connection('popular');
+
+        $db->insert('insert into pageviews (url, timestamp) values (?, ?)', [$url, time()]);
+        \Log::debug(microtime(true) - $start);
     }
 }

@@ -4,5 +4,5 @@
     formData.append('_token', csrfToken());
     formData.append('url', window.location.href);
 
-    navigator.sendBeacon('/!/popular', formData);
+    navigator.sendBeacon('/!/popular/pageviews', formData);
 })();

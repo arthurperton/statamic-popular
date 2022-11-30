@@ -42,17 +42,17 @@ class CreateDatabase extends Command
      */
     public function handle()
     {
-        $file = storage_path('app/popular.sqlite');
+        $file = database_path('app/popular.sqlite');
 
         if (!File::exists($file)) {
             File::put($file, '');
         }
 
 
-        config(['database.connections.popular' => [
-            'driver' => 'sqlite',
-            'database' => $file,
-        ]]);
+        // config(['database.connections.popular' => [
+        //     'driver' => 'sqlite',
+        //     'database' => $file,
+        // ]]);
 
         $schema = Schema::connection('popular');
 

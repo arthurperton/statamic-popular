@@ -28,6 +28,17 @@ class ServiceProvider extends AddonServiceProvider
         Console\Commands\CreateDatabase::class,
     ];
 
+    // protected $scripts = [
+    //     __DIR__ . '/../resources/js/popular.js',
+    // ];
+    protected $publishables = [
+        __DIR__ . '/../resources/js' => 'js',
+    ];
+
+    protected $routes = [
+        'web' => __DIR__ . '/../routes/web.php',
+    ];
+
     public function bootAddon()
     {
         Statamic::afterInstalled(function ($command) {
@@ -35,5 +46,10 @@ class ServiceProvider extends AddonServiceProvider
                 (new Listeners\InjectPageViews())->handle((object) ['collection' => $collection]);
             });
         });
+
+        config(['database.connections.popular' => [
+            'driver' => 'sqlite',
+            'database' => database_path('app/popular.sqlite'),
+        ]]);
     }
 }
