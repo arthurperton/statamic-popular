@@ -2,10 +2,6 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular;
 
-use ArthurPerton\Statamic\Addons\Popular\Http\Middleware\UpdatePageviews;
-use ArthurPerton\Statamic\Addons\Popular\Listeners\AddPageviewsField;
-use ArthurPerton\Statamic\Addons\Popular\Listeners\InjectPageViews;
-use ArthurPerton\Statamic\Addons\Popular\Tags\Popular;
 use Statamic\Facades\Collection;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -14,25 +10,29 @@ class ServiceProvider extends AddonServiceProvider
 {
     protected $listen = [
         \Statamic\Events\CollectionSaved::class => [
-            InjectPageViews::class,
+            Listeners\InjectPageViews::class,
         ],
         \Statamic\Events\CollectionUpdated::class => [
-            InjectPageViews::class,
+            Listeners\InjectPageViews::class,
         ],
         \Statamic\Events\EntryBlueprintFound::class => [
-            AddPageviewsField::class,
+            Listeners\AddPageviewsField::class,
         ],
     ];
 
-    protected $tags = [Popular::class];
+    protected $tags = [
+        Tags\Popular::class,
+    ];
 
-    protected $middlewareGroups = ['web' => [UpdatePageviews::class]];
+    protected $commands = [
+        Console\Commands\CreateDatabase::class,
+    ];
 
     public function bootAddon()
     {
         Statamic::afterInstalled(function ($command) {
             Collection::all()->each(function ($collection) {
-                (new InjectPageViews())->handle((object) ['collection' => $collection]);
+                (new Listeners\InjectPageViews())->handle((object) ['collection' => $collection]);
             });
         });
     }
