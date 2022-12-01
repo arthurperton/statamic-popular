@@ -14,13 +14,14 @@ class Popular extends Collection
         $sort = 'has_pageviews|pageviews:desc';
 
         if ($sortExtra = Arr::getFirst($this->params, ['order_by', 'sort'])) {
-            $sort = $sort.'|'.$sortExtra;
+            $sort = $sort . '|' . $sortExtra;
         }
 
         unset($params['order_by']);
 
         $params['sort'] = $sort;
 
-        return parent::entries($params);
+        // return parent::entries($params);
+        return new Entries($params);
     }
 }

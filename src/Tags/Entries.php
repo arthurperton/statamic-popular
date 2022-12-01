@@ -2,18 +2,17 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Tags;
 
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Repository;
 use Statamic\Tags\Collection\Entries as EntriesBase;
 
 class Entries extends EntriesBase
 {
     protected function results($query)
     {
-        return parent::results($query)->map(function ($entry) {
-            // if (! $entry->get('pageviews')) {
-            //     $entry->set('pageviews', 0);
-            // }
+        $repository = new Repository();
 
-            return $entry;
+        return parent::results($query)->map(function ($entry) use ($repository) {
+            return $entry->setSupplement('pageviews', $repository->get($entry->id()));
         });
     }
 }
