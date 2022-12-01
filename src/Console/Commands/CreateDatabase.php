@@ -2,12 +2,8 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Console\Commands;
 
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use Illuminate\Console\Command;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-// use Illuminate\Support\Facades\Storage;
-use Statamic\Facades\File;
 
 class CreateDatabase extends Command
 {
@@ -42,34 +38,16 @@ class CreateDatabase extends Command
      */
     public function handle()
     {
-        $file = database_path('app/popular.sqlite');
+        $database = new Database(); // TODO facade / inject?
+        $database->create();
 
-        if (!File::exists($file)) {
-            File::put($file, '');
-        }
+        // for ($i = 0; $i < 10000; $i++) {
+        //     $database->addPageview('abcdefg' . str_pad($i % 100, 3, '0', STR_PAD_LEFT));
+        // }
 
+        // echo (new Aggregator)->aggregate() ? 'aggregation successful' : 'aggregation failed';
 
-        // config(['database.connections.popular' => [
-        //     'driver' => 'sqlite',
-        //     'database' => $file,
-        // ]]);
-
-        $schema = Schema::connection('popular');
-
-        if (!$schema->hasTable('pageviews')) {
-            $schema->create('pageviews', function (Blueprint $table) {
-                $table->id();
-                $table->string('url')->index();
-                $table->timestamp('timestamp')->index();
-            });
-        }
-
-        $db = DB::connection('popular');
-
-        $db->insert('insert into pageviews (url, timestamp) values (?, ?)', ['https://example.com/highway/to/hell', time()]);
-
-        $results = $db->select('select url, count(*) as views from pageviews group by url');
-        dd($results);
+        // dd((new Repository)->all());
 
         return 0;
     }

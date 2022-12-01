@@ -18,6 +18,9 @@ class ServiceProvider extends AddonServiceProvider
         \Statamic\Events\EntryBlueprintFound::class => [
             Listeners\AddPageviewsField::class,
         ],
+        \Statamic\Events\EntryDeleted::class => [
+            Listeners\DeletePageviews::class,
+        ],
     ];
 
     protected $tags = [
@@ -26,6 +29,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $commands = [
         Console\Commands\CreateDatabase::class,
+        Console\Commands\Aggregate::class,
     ];
 
     // protected $scripts = [
