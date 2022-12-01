@@ -14,6 +14,11 @@ class Repository
         $this->file = new LockingFile(storage_path('popular/pageviews'));
     }
 
+    public function get($entry)
+    {
+        return $this->items()->get($entry, 0);
+    }
+
     public function all()
     {
         return $this->items();
