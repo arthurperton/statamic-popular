@@ -2,19 +2,13 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular;
 
-use Statamic\Facades\Collection;
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
     protected $listen = [
-        \Statamic\Events\CollectionSaved::class => [
-            Listeners\InjectPageViews::class,
-        ],
-        \Statamic\Events\CollectionUpdated::class => [
-            Listeners\InjectPageViews::class,
-        ],
         \Statamic\Events\EntryBlueprintFound::class => [
             Listeners\AddPageviewsField::class,
         ],
@@ -46,14 +40,20 @@ class ServiceProvider extends AddonServiceProvider
     public function bootAddon()
     {
         Statamic::afterInstalled(function ($command) {
-            Collection::all()->each(function ($collection) {
-                (new Listeners\InjectPageViews())->handle((object) ['collection' => $collection]);
-            });
+            // Collection::all()->each(function ($collection) {
+            //     (new Listeners\InjectPageViews())->handle((object) ['collection' => $collection]);
+            // });
+            (new Database)->create(); // TODO or create if it doesn't exists?
         });
 
         config(['database.connections.popular' => [
             'driver' => 'sqlite',
             'database' => database_path('app/popular.sqlite'),
         ]]);
+    }
+
+    protected function schedule($schedule)
+    {
+        $schedule->command('popular:aggregate')->everyMinute();
     }
 }
