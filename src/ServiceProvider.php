@@ -19,6 +19,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $tags = [
         Tags\Popular::class,
+        Tags\PopularPageviews::class,
     ];
 
     protected $commands = [
