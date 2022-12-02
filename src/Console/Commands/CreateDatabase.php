@@ -2,7 +2,7 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Console\Commands;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
+use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
 use Illuminate\Console\Command;
 
 class CreateDatabase extends Command
