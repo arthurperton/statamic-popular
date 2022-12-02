@@ -42,8 +42,7 @@ class CreateDatabase extends Command
             if ($this->option('force')) {
                 $this->info('Creating the database.');
             } else {
-                $this->info('The database already exists. Use the --force option to replace the existing database with a fresh one.');
-
+                $this->info('The database already exists. Use the --force option to replace the existing database with a fresh new empty one.');
             }
         }
 
