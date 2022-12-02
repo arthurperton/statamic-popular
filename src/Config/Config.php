@@ -6,17 +6,25 @@ class Config
 {
     public function includeCollection(string $handle): bool
     {
-        $collections = config('statamic.popular.collections');
+        $excludes = config('popular.exclude_collections') ?? [];
+        $includes = config('popular.include_collections') ?? ['*'];
 
-        if (! $collections) return true;
+        if ($this->match($excludes, $handle)) return false;
 
-        return collect($collections)->contains(function ($pattern) use ($handle) {
+        return $this->match($includes, $handle);
+    }
+
+    private function match(array $patterns, string $handle): bool
+    {
+        if (in_array('*', $patterns)) return true;
+
+        return collect($patterns)->contains(function ($pattern) use ($handle) {
             if ($handle === $pattern) return true;
-            
-            if (! str_contains($pattern, '*')) return false;
+
+            if (!str_contains($pattern, '*')) return false;
 
             // TODO is it worth to cache the patterns?
-            return preg_match('/^'.str_replace('*', '.*', $pattern).'$/', $handle);
+            return preg_match('/^' . str_replace('*', '.*', $pattern) . '$/', $handle);
         });
     }
 }
