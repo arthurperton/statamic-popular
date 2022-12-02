@@ -8,6 +8,8 @@ class Config
     {
         $collections = config('statamic.popular.collections');
 
+        if (! $collections) return true;
+
         return collect($collections)->contains(function ($pattern) use ($handle) {
             if ($handle === $pattern) return true;
             
