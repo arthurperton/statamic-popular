@@ -12,7 +12,7 @@ class CreateDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'popular:create-database';
+    protected $signature = 'popular:create-database  {--f|force : Overwrite database if it already exists}';
 
     /**
      * The console command description.
@@ -39,15 +39,17 @@ class CreateDatabase extends Command
     public function handle()
     {
         $database = new Database(); // TODO facade / inject?
-        $database->create();
+        
+        if ($database->exists()) {
+            if ($this->option('force')) {
+                $this->info('Creating the database.');
+            } else {
+                $this->info('The database already exists. Use the --force option to replace the existing database with a fresh one.');
 
-        // for ($i = 0; $i < 10000; $i++) {
-        //     $database->addPageview('abcdefg' . str_pad($i % 100, 3, '0', STR_PAD_LEFT));
-        // }
+            }
+        }
 
-        // echo (new Aggregator)->aggregate() ? 'aggregation successful' : 'aggregation failed';
-
-        // dd((new Repository)->all());
+        $database->create(true);
 
         return 0;
     }

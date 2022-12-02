@@ -2,6 +2,8 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
 
+use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
+
 class Aggregator
 {
     public function aggregate(): bool
@@ -10,11 +12,7 @@ class Aggregator
 
         [$updates, $lastId] = $database->getGroupedPageviews();
 
-        // dd($updates);
-
-        $repository = new Repository(); // TODO facade
-
-        if ($success = $repository->update($updates)) {
+        if ($success = Pageviews::update($updates)) {
             $database->deletePageViews($lastId);
         }
 

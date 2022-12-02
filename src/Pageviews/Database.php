@@ -20,11 +20,17 @@ class Database
     {
         $this->path = database_path('app/popular.sqlite');
         $this->connection = 'popular';
+        $this->create();
     }
 
-    public function create()
+    public function exists(): bool
     {
-        if (File::exists($this->path)) {
+        return File::exists($this->path);
+    }
+
+    public function create($overwrite = false)
+    {
+        if (!$overwrite && $this->exists()) {
             return;
         }
 

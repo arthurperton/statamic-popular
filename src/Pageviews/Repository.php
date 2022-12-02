@@ -14,17 +14,17 @@ class Repository
         $this->file = new LockingFile(storage_path('popular/pageviews'));
     }
 
-    public function get($entry)
+    public function get(string $entry): int
     {
-        return $this->items()->get($entry, 0);
+        return (int) $this->items()->get($entry, 0);
     }
 
-    public function all()
+    public function all(): Collection
     {
         return $this->items();
     }
 
-    public function update($updates)
+    public function update($updates): bool
     {
         return $this->file->modify(function ($data) use ($updates) {
             $this->items = collect($data ?: []);

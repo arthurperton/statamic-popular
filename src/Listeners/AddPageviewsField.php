@@ -2,7 +2,6 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Listeners;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Repository;
 use Statamic\Events\EntryBlueprintFound;
 
 class AddPageviewsField
@@ -13,13 +12,9 @@ class AddPageviewsField
             return;
         }
 
-        if (!$entry = $event->entry) {
+        if ($blueprint->hasField('pageviews')) {
             return;
         }
-
-        // if ($blueprint->hasField('pageviews')) {
-        //     return;
-        // }
 
         if (!$blueprint->hasSection('sidebar')) {
             return;
@@ -34,12 +29,10 @@ class AddPageviewsField
         $contents['sections']['sidebar']['fields'][] = [
             'handle' => 'pageviews',
             'field' => [
-                'visibility' => 'read_only', // TODO make editable based on config?
+                'visibility' => 'computed',
             ],
         ];
 
         $blueprint->setContents($contents);
-
-        $entry->set('pageviews', (new Repository)->get($entry->id()));
     }
 }

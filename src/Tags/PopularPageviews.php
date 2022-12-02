@@ -2,7 +2,7 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Tags;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Repository;
+use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
 use Statamic\Fields\Value;
 use Statamic\Tags\Tags;
 
@@ -20,6 +20,6 @@ class PopularPageviews extends Tags
             $id = $id->value();
         }
 
-        return (new Repository)->get($id);
+        return Pageviews::get($id);
     }
 }
