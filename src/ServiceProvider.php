@@ -65,10 +65,9 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function createComputedValues()
     {
-        // TODO use collections from config
         Collection::handles()->each(function ($handle) {
             if (! (new Config)->includeCollection($handle)) return;
-            
+
             Collection::computed($handle, 'pageviews', function ($entry) {
                 return Pageviews::get($entry->id());
             });
