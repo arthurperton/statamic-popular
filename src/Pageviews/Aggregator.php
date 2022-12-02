@@ -17,7 +17,7 @@ class Aggregator
         [$updates, $lastId] = $result;
 
         if ($success = Pageviews::update($updates)) {
-            Database::deletePageViews($lastId);
+            Database::deletePageViews($lastId); // TODO what if this fails
         }
 
         return $success;
