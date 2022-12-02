@@ -2,6 +2,7 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular;
 
+use ArthurPerton\Statamic\Addons\Popular\Config\Config;
 use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
 use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
 use Statamic\Facades\Collection;
@@ -29,10 +30,6 @@ class ServiceProvider extends AddonServiceProvider
         Console\Commands\Aggregate::class,
     ];
 
-    // protected $publishables = [
-    //     __DIR__ . '/../resources/js' => 'js',
-    // ];
-
     protected $routes = [
         'web' => __DIR__ . '/../routes/web.php',
     ];
@@ -43,14 +40,36 @@ class ServiceProvider extends AddonServiceProvider
             Database::create(); // database will only be created if it doesn't exist yet
         });
 
+        $this->handleConfig();
+        $this->addDatabaseConnection();
+        $this->createComputedValues();
+    }
+
+    protected function handleConfig()
+    {
+        // TODO test merging
+        $this->mergeConfigFrom(__DIR__ . '/../config/popular.php', 'popular');
+
+        $this->publishes([
+            __DIR__ . '/../config/popular.php' => config_path('popular.php'),
+        ], 'popular-config');
+    }
+
+    protected function addDatabaseConnection()
+    {
         config(['database.connections.popular' => [
             'driver' => 'sqlite',
             'database' => database_path('app/popular.sqlite'),
         ]]);
+    }
 
-        // TODO use include and exclude from config
-        Collection::handles()->each(function ($collection) {
-            Collection::computed($collection, 'pageviews', function ($entry) {
+    protected function createComputedValues()
+    {
+        // TODO use collections from config
+        Collection::handles()->each(function ($handle) {
+            if (! (new Config)->includeCollection($handle)) return;
+            
+            Collection::computed($handle, 'pageviews', function ($entry) {
                 return Pageviews::get($entry->id());
             });
         });
