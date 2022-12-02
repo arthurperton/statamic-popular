@@ -3,7 +3,7 @@
 namespace ArthurPerton\Statamic\Addons\Popular;
 
 use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
+use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
 use Statamic\Facades\Collection;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -38,8 +38,8 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
-        Statamic::afterInstalled(function ($command) {
-            (new Database)->create(); // TODO or create if it doesn't exists?
+        Statamic::afterInstalled(function () {
+            Database::create(); // database will only be created if it doesn't exist yet
         });
 
         config(['database.connections.popular' => [

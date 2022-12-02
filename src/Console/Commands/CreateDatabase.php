@@ -37,10 +37,8 @@ class CreateDatabase extends Command
      * @return int
      */
     public function handle()
-    {
-        $database = new Database(); // TODO facade / inject?
-        
-        if ($database->exists()) {
+    {        
+        if (Database::exists()) {
             if ($this->option('force')) {
                 $this->info('Creating the database.');
             } else {
@@ -49,7 +47,7 @@ class CreateDatabase extends Command
             }
         }
 
-        $database->create(true);
+        Database::create(true);
 
         return 0;
     }

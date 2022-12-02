@@ -66,10 +66,10 @@ class Database
         $result = $this->db()->select('SELECT rowid FROM pageviews ORDER BY rowid DESC LIMIT 1');
 
         if (!$result) {
-            return;
+            return null;
         }
 
-        $lastId = $result[0]->rowid;
+        $lastId = (string) $result[0]->rowid;
 
         $results = $this->db()->select('SELECT entry, COUNT(*) AS views FROM pageviews WHERE rowid <= ? GROUP BY entry', [$lastId]);
 
@@ -81,7 +81,7 @@ class Database
         $this->db()->delete('DELETE FROM pageviews WHERE rowid <= ?', [$lastId]);
     }
 
-    public function db(): ConnectionInterface // TODO protected
+    protected function db(): ConnectionInterface
     {
         return DB::connection($this->connection); // TODO cache?
     }
