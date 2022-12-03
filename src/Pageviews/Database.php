@@ -7,6 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Statamic\Facades\File;
+use Statamic\Facades\Path;
 
 class Database
 {
@@ -18,9 +19,21 @@ class Database
 
     public function __construct()
     {
-        $this->path = database_path('app/popular.sqlite');
+        $this->path = Path::assemble(config('popular.database'), 'pageviews.sqlite');
+
+        config(['database.connections.popular' => [
+            'driver' => 'sqlite',
+            'database' => Database::path(),
+        ]]);
+
         $this->connection = 'popular';
+
         $this->create();
+    }
+
+    public function path(): string
+    {
+        return $this->path();
     }
 
     public function exists(): bool

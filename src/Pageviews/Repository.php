@@ -3,6 +3,7 @@
 namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
 
 use Illuminate\Support\Collection;
+use Statamic\Facades\Path;
 
 class Repository
 {
@@ -11,7 +12,7 @@ class Repository
 
     public function __construct()
     {
-        $this->file = new LockingFile(storage_path('popular/pageviews'));
+        $this->file = new LockingFile(Path::assemble(config('popular.files'), 'pageviews'));
     }
 
     public function get(string $entry): int

@@ -36,13 +36,13 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
+        $this->handleConfig();
+        // $this->addDatabaseConnection();
+        $this->createComputedValues();
+
         Statamic::afterInstalled(function () {
             Database::create(); // database will only be created if it doesn't exist yet
         });
-
-        $this->handleConfig();
-        $this->addDatabaseConnection();
-        $this->createComputedValues();
     }
 
     protected function handleConfig()
@@ -55,18 +55,18 @@ class ServiceProvider extends AddonServiceProvider
         ], 'popular-config');
     }
 
-    protected function addDatabaseConnection()
-    {
-        config(['database.connections.popular' => [
-            'driver' => 'sqlite',
-            'database' => database_path('app/popular.sqlite'),
-        ]]);
-    }
+    // protected function addDatabaseConnection()
+    // {
+    //     config(['database.connections.popular' => [
+    //         'driver' => 'sqlite',
+    //         'database' => Database::path(),
+    //     ]]);
+    // }
 
     protected function createComputedValues()
     {
         Collection::handles()->each(function ($handle) {
-            if (! (new Config)->includeCollection($handle)) return;
+            if (!(new Config)->includeCollection($handle)) return;
 
             Collection::computed($handle, 'pageviews', function ($entry) {
                 return Pageviews::get($entry->id());
