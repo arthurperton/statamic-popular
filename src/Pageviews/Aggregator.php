@@ -2,22 +2,24 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
 
-use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
 
 class Aggregator
 {
     public function aggregate(): bool
     {
-        $result = Database::getGroupedPageviews();
-        if (! $result) {
+        $database = app(Database::class); // TODO try injection
+
+        $result = $database->getGroupedPageviews();
+        if (!$result) {
             return false;
         }
 
         [$updates, $lastId] = $result;
 
         if ($success = Pageviews::update($updates)) {
-            Database::deletePageViews($lastId); // TODO what if this fails
+            $database->deletePageViews($lastId); // TODO what if this fails
         }
 
         return $success;

@@ -2,13 +2,13 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Http\Controllers;
 
-use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use Illuminate\Http\Request;
 
 class PageviewController
 {
-    public function store(Request $request)
+    public function store(Request $request, Database $database)
     {
-        Database::addPageview($request->post('entry'));
+        $database->addPageview($request->post('entry'));
     }
 }

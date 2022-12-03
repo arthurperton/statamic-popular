@@ -23,12 +23,12 @@ class Database
 
         config(['database.connections.popular' => [
             'driver' => 'sqlite',
-            'database' => Database::path(),
+            'database' => $this->path,
         ]]);
 
         $this->connection = 'popular';
 
-        $this->create();
+        // $this->create();
     }
 
     public function path(): string

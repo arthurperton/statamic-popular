@@ -4,7 +4,7 @@ namespace ArthurPerton\Statamic\Addons\Popular;
 
 use ArthurPerton\Statamic\Addons\Popular\Config\Config;
 use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
-use ArthurPerton\Statamic\Addons\Popular\Facades\Database;
+use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use Statamic\Facades\Collection;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Statamic;
@@ -28,21 +28,28 @@ class ServiceProvider extends AddonServiceProvider
     protected $commands = [
         Console\Commands\CreateDatabase::class,
         Console\Commands\Aggregate::class,
+        Console\Commands\Stress::class,
     ];
 
     protected $routes = [
         'web' => __DIR__ . '/../routes/web.php',
     ];
 
+    public function register()
+    {
+        $this->app->singleton(Database::class, function () {
+            return new Database();
+        });
+    }
+
     public function bootAddon()
     {
         $this->handleConfig();
-        // $this->addDatabaseConnection();
         $this->createComputedValues();
 
-        Statamic::afterInstalled(function () {
-            Database::create(); // database will only be created if it doesn't exist yet
-        });
+        // Statamic::afterInstalled(function () {
+        $this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
+        // });
     }
 
     protected function handleConfig()
@@ -54,14 +61,6 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__ . '/../config/popular.php' => config_path('popular.php'),
         ], 'popular-config');
     }
-
-    // protected function addDatabaseConnection()
-    // {
-    //     config(['database.connections.popular' => [
-    //         'driver' => 'sqlite',
-    //         'database' => Database::path(),
-    //     ]]);
-    // }
 
     protected function createComputedValues()
     {

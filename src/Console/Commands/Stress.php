@@ -4,22 +4,23 @@ namespace ArthurPerton\Statamic\Addons\Popular\Console\Commands;
 
 use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use Illuminate\Console\Command;
+use Statamic\Facades\Entry;
 
-class CreateDatabase extends Command
+class Stress extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'popular:create-database {--f|force : Overwrite database if it already exists}';
+    protected $signature = 'popular:stress {--frequency= : Number of pageviews added per second}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates the sqlite database for the Popular addon';
+    protected $description = 'Keeps adding lots of pageviews';
 
     /**
      * Create a new command instance.
@@ -38,15 +39,25 @@ class CreateDatabase extends Command
      */
     public function handle(Database $database)
     {
-        if ($database->exists()) {
-            if ($this->option('force')) {
-                $this->info('Creating the database.');
-            } else {
-                $this->info('The database already exists. Use the --force option to replace the existing database with a fresh new empty one.');
-            }
-        }
+        $frequency = $this->option('frequency') ?? 1;
 
-        $database->create(true);
+        $sleep = 1E6 / $frequency;
+
+        $ids = Entry::whereCollection('pages')->map->id()->all();
+        $count = count($ids);
+
+        $i = 0;
+        while ($i < 1E10) {
+            $id = $ids[$i % $count];
+            // echo "$id\n";
+            echo "$i\n";
+
+            $database->addPageview($id);
+
+            $i++;
+
+            usleep($sleep);
+        }
 
         return 0;
     }
