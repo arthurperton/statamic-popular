@@ -1,0 +1,36 @@
+<?php
+
+namespace ArthurPerton\Statamic\Addons\Popular\Widgets;
+
+use Statamic\Facades\Collection;
+use Statamic\Facades\User;
+use Statamic\Widgets\Widget;
+
+class MostPopular extends Widget
+{
+    /**
+     * The HTML that should be shown in the widget.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function html()
+    {
+        $collection = $this->config('collection');
+
+        if (! Collection::handleExists($collection)) {
+            return "Error: Collection [$collection] doesn't exist.";
+        }
+
+        $collection = Collection::findByHandle($collection);
+
+        if (! User::current()->can('view', $collection)) {
+            return;
+        }
+
+        return view('statamic-popular::widgets.most-popular', [
+            'collection' => $collection,
+            'title' => $this->config('title', $collection->title()),
+            'limit' => $this->config('limit', 5),
+        ]);
+    }
+}
