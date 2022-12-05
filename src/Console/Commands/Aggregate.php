@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Console\Commands;
+namespace ArthurPerton\Popular\Console\Commands;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Aggregator;
+use ArthurPerton\Popular\Pageviews\Aggregator;
 use Illuminate\Console\Command;
 
 class Aggregate extends Command

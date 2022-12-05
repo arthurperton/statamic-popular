@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Tags;
+namespace ArthurPerton\Popular\Tags;
 
 use Statamic\Tags\Tags;
 

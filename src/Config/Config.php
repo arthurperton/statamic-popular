@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Config;
+namespace ArthurPerton\Popular\Config;
 
 class Config
 {

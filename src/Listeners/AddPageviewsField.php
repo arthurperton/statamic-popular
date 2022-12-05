@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Listeners;
+namespace ArthurPerton\Popular\Listeners;
 
-use ArthurPerton\Statamic\Addons\Popular\Config\Config;
+use ArthurPerton\Popular\Config\Config;
 use Statamic\Entries\Collection;
 use Statamic\Entries\Entry;
 use Statamic\Events\EntryBlueprintFound;

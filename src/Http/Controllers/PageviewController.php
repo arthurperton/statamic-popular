@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Http\Controllers;
+namespace ArthurPerton\Popular\Http\Controllers;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
+use ArthurPerton\Popular\Pageviews\Database;
 use Illuminate\Http\Request;
 
 class PageviewController

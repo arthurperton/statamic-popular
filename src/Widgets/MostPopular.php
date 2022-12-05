@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Widgets;
+namespace ArthurPerton\Popular\Widgets;
 
 use Statamic\Facades\Collection;
 use Statamic\Facades\User;
@@ -27,7 +27,7 @@ class MostPopular extends Widget
             return;
         }
 
-        return view('statamic-popular::widgets.most-popular', [
+        return view('popular::widgets.most-popular', [
             'collection' => $collection,
             'title' => $this->config('title', $collection->title()),
             'limit' => $this->config('limit', 5),

@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Facades;
+namespace ArthurPerton\Popular\Facades;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Repository;
+use ArthurPerton\Popular\Pageviews\Repository;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Support\Collection all()
  * @method static bool update(array $updates)
  *
- * @see \ArthurPerton\Statamic\Addons\Popular\Pageviews\Repository
+ * @see \ArthurPerton\Popular\Pageviews\Repository
  */
 class Pageviews extends Facade
 {

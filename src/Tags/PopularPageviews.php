@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Tags;
+namespace ArthurPerton\Popular\Tags;
 
-use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
+use ArthurPerton\Popular\Facades\Pageviews;
 use Statamic\Fields\Value;
 use Statamic\Tags\Tags;
 

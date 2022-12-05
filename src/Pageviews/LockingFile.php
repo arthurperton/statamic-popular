@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
+namespace ArthurPerton\Popular\Pageviews;
 
 use Statamic\Facades\File;
 use Statamic\Facades\Path;

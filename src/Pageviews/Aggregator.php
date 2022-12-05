@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
+namespace ArthurPerton\Popular\Pageviews;
 
-use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
+use ArthurPerton\Popular\Facades\Pageviews;
 
 class Aggregator
 {

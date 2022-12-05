@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Listeners;
+namespace ArthurPerton\Popular\Listeners;
 
 use Statamic\Events\EntryDeleted;
 

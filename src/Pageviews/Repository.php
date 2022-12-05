@@ -1,6 +1,6 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
+namespace ArthurPerton\Popular\Pageviews;
 
 use Illuminate\Support\Collection;
 use Statamic\Facades\Path;

@@ -1,10 +1,10 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular;
+namespace ArthurPerton\Popular;
 
-use ArthurPerton\Statamic\Addons\Popular\Config\Config;
-use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
+use ArthurPerton\Popular\Config\Config;
+use ArthurPerton\Popular\Facades\Pageviews;
+use ArthurPerton\Popular\Pageviews\Database;
 use Statamic\Facades\Collection;
 use Statamic\Providers\AddonServiceProvider;
 
@@ -45,31 +45,14 @@ class ServiceProvider extends AddonServiceProvider
         });
     }
 
-    // public function boot()
-    // {
-    //     $this->handleConfig();
-
-    //     parent::boot();
-    // }
-
     public function bootAddon()
     {
         $this->createComputedValues();
 
         // Statamic::afterInstalled(function () {
-        //$this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
+        $this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
         // });
     }
-
-    // protected function handleConfig()
-    // {
-    //     // TODO test merging
-    //     $this->mergeConfigFrom(__DIR__.'/../config/popular.php', 'popular');
-
-    //     $this->publishes([
-    //         __DIR__.'/../config/popular.php' => config_path('popular.php'),
-    //     ], 'popular-config');
-    // }
 
     protected function createComputedValues()
     {

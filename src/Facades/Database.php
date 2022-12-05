@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Facades;
+namespace ArthurPerton\Popular\Facades;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database as PageviewsDatabase;
+use ArthurPerton\Popular\Pageviews\Database as PageviewsDatabase;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static null|[array, string] getGroupedPageviews()
  * @method static void deletePageViews(string $lastId)
  *
- * @see \ArthurPerton\Statamic\Addons\Popular\Pageviews\Database
+ * @see \ArthurPerton\Popular\Pageviews\Database
  */
 class Database extends Facade
 {

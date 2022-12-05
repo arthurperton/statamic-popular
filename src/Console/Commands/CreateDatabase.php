@@ -1,8 +1,8 @@
 <?php
 
-namespace ArthurPerton\Statamic\Addons\Popular\Console\Commands;
+namespace ArthurPerton\Popular\Console\Commands;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
+use ArthurPerton\Popular\Pageviews\Database;
 use Illuminate\Console\Command;
 
 class CreateDatabase extends Command

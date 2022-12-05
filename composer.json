@@ -1,8 +1,8 @@
 {
-  "name": "arthurperton/statamic-popular",
+  "name": "arthurperton/popular",
   "autoload": {
     "psr-4": {
-      "ArthurPerton\\Statamic\\Addons\\Popular\\": "src"
+      "ArthurPerton\\Popular\\": "src"
     }
   },
   "extra": {
@@ -12,7 +12,7 @@
     },
     "laravel": {
       "providers": [
-        "ArthurPerton\\Statamic\\Addons\\Popular\\ServiceProvider"
+        "ArthurPerton\\Popular\\ServiceProvider"
       ]
     }
   },
