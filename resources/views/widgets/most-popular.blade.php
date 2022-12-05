@@ -9,14 +9,13 @@
             </a>
         </h2>
         @can('create', ['Statamic\Contracts\Entries\Entry', $collection])
-        {{-- <a href="{{ $collection->createEntryUrl() }}" class="text-blue hover:text-blue-dark text-sm">{{ $button }}</a> --}}
+        <a href="{{ $collection->createEntryUrl() }}" class="text-blue hover:text-blue-dark text-sm">{{ $button }}</a>
         @endcan
     </div>
-    {{-- <collection-widget
+    <most-popular-widget
         collection="{{ $collection->handle() }}"
-        :filters="{{ $filters->toJson() }}"
-        initial-sort-column="{{ $sortColumn }}"
-        initial-sort-direction="{{ $sortDirection }}"
-        :initial-per-page="{{ $limit }}"
-    ></collection-widget> --}}
+        initial-sort-column="pageviews"
+        initial-sort-direction="desc"
+        initial-per-page="{{ $limit }}"
+    ></most-popular-widget>
 </div>

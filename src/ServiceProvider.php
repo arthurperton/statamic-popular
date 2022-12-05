@@ -34,6 +34,10 @@ class ServiceProvider extends AddonServiceProvider
         Console\Commands\Stress::class,
     ];
 
+    protected $scripts = [
+        __DIR__.'/../dist/js/app.js',
+    ];
+
     protected $routes = [
         'web' => __DIR__.'/../routes/web.php',
     ];
@@ -62,7 +66,11 @@ class ServiceProvider extends AddonServiceProvider
             }
 
             Collection::computed($handle, 'pageviews', function ($entry) {
-                return Pageviews::get($entry->id());
+                if (! $id = $entry->id()) {
+                    return 0;
+                }
+
+                return Pageviews::get($id);
             });
         });
     }

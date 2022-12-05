@@ -30,6 +30,7 @@ class MostPopular extends Widget
         return view('popular::widgets.most-popular', [
             'collection' => $collection,
             'title' => $this->config('title', $collection->title()),
+            'button' => $collection->createLabel(),
             'limit' => $this->config('limit', 5),
         ]);
     }
