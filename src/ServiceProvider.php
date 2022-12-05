@@ -45,25 +45,31 @@ class ServiceProvider extends AddonServiceProvider
         });
     }
 
+    // public function boot()
+    // {
+    //     $this->handleConfig();
+
+    //     parent::boot();
+    // }
+
     public function bootAddon()
     {
-        $this->handleConfig();
         $this->createComputedValues();
 
         // Statamic::afterInstalled(function () {
-        $this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
+        //$this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
         // });
     }
 
-    protected function handleConfig()
-    {
-        // TODO test merging
-        $this->mergeConfigFrom(__DIR__.'/../config/popular.php', 'popular');
+    // protected function handleConfig()
+    // {
+    //     // TODO test merging
+    //     $this->mergeConfigFrom(__DIR__.'/../config/popular.php', 'popular');
 
-        $this->publishes([
-            __DIR__.'/../config/popular.php' => config_path('popular.php'),
-        ], 'popular-config');
-    }
+    //     $this->publishes([
+    //         __DIR__.'/../config/popular.php' => config_path('popular.php'),
+    //     ], 'popular-config');
+    // }
 
     protected function createComputedValues()
     {
