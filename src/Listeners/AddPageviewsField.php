@@ -2,13 +2,16 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Listeners;
 
+use ArthurPerton\Statamic\Addons\Popular\Config\Config;
+use Statamic\Entries\Collection;
+use Statamic\Entries\Entry;
 use Statamic\Events\EntryBlueprintFound;
 
 class AddPageviewsField
 {
     public function handle(EntryBlueprintFound $event)
     {
-        if (!$blueprint = $event->blueprint) {
+        if (! $blueprint = $event->blueprint) {
             return;
         }
 
@@ -16,13 +19,23 @@ class AddPageviewsField
             return;
         }
 
-        if (!$blueprint->hasSection('sidebar')) {
+        if (! $collection = $this->getCollection($blueprint)) {
+            return;
+        }
+
+        if (! (new Config)->includeCollection($collection->handle())) {
+            return;
+        }
+
+        // TODO change this sidebar logic. Field should at least always show on
+        // the list view.
+        if (! $blueprint->hasSection('sidebar')) {
             return;
         }
 
         $contents = $blueprint->contents();
 
-        if (!isset($contents['sections']['sidebar']['fields'])) {
+        if (! isset($contents['sections']['sidebar']['fields'])) {
             $contents['sections']['sidebar']['fields'] = [];
         }
 
@@ -34,5 +47,18 @@ class AddPageviewsField
         ];
 
         $blueprint->setContents($contents);
+    }
+
+    private function getCollection($blueprint)
+    {
+        $parent = $blueprint->parent();
+
+        if ($parent instanceof Entry) {
+            return $parent->collection();
+        } elseif ($parent instanceof Collection) {
+            return $parent;
+        } else {
+            return null;
+        }
     }
 }
