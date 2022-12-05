@@ -6,21 +6,23 @@ use ArthurPerton\Popular\Facades\Pageviews;
 
 class Aggregator
 {
-    public function aggregate(): bool
+    public function aggregate(): int|false
     {
-        $database = app(Database::class); // TODO try injection
+        $database = app(Database::class);
 
         $result = $database->getGroupedPageviews();
         if (! $result) {
-            return false;
+            return 0;
         }
 
         [$updates, $lastId] = $result;
 
-        if ($success = Pageviews::update($updates)) {
-            $database->deletePageViews($lastId); // TODO what if this fails
+        if (! Pageviews::update($updates)) {
+            return false;
         }
+        
+        $database->deletePageViews($lastId); // TODO what if this fails
 
-        return $success;
+        return count($updates);
     }
 }
