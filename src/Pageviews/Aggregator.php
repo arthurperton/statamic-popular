@@ -18,11 +18,11 @@ class Aggregator
         [$updates, $lastId] = $result;
 
         if (! Pageviews::update($updates)) {
-            return false;
+            return false; // TODO error/exception?
         }
-        
+
         $database->deletePageViews($lastId); // TODO what if this fails
 
-        return count($updates);
+        return collect($updates)->sum->views;
     }
 }

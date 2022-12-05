@@ -40,8 +40,12 @@ class Aggregate extends Command
     {
         $result = (new Aggregator)->aggregate();
 
-        $this->info("$result pageviews aggregated");
-        
-        return $result === false ? 1 : 0;
+        if ($result !== false) {
+            $this->info("$result pageviews aggregated");
+
+            return 0;
+        }
+
+        return 1;
     }
 }
