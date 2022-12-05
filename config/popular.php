@@ -34,7 +34,7 @@ return [
     | Add Pageviews Field
     |--------------------------------------------------------------------------
     |
-    | This will add a read-only 'Pageviews' field to your entry blueprints 
+    | This will add a read-only 'Pageviews' field to your entry blueprints
     | on-the-fly.
     |
     */

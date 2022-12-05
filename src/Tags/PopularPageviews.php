@@ -12,7 +12,7 @@ class PopularPageviews extends Tags
     {
         $id = $this->params['id'] ?? $this->context['id'] ?? null;
 
-        if (!$id) {
+        if (! $id) {
             return 0;
         }
 

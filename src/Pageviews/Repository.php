@@ -45,7 +45,7 @@ class Repository
 
     protected function items(): Collection
     {
-        if (!$this->items) {
+        if (! $this->items) {
             $this->items = collect($this->file->read());
         }
 

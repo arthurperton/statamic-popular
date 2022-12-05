@@ -2,7 +2,6 @@
 
 namespace ArthurPerton\Statamic\Addons\Popular\Pageviews;
 
-use ArthurPerton\Statamic\Addons\Popular\Pageviews\Database;
 use ArthurPerton\Statamic\Addons\Popular\Facades\Pageviews;
 
 class Aggregator
@@ -12,7 +11,7 @@ class Aggregator
         $database = app(Database::class); // TODO try injection
 
         $result = $database->getGroupedPageviews();
-        if (!$result) {
+        if (! $result) {
             return false;
         }
 

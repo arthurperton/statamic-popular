@@ -25,7 +25,7 @@ class LockingFile
 
     public function readString()
     {
-        if (!$this->open()) {
+        if (! $this->open()) {
             return false;
         }
 
@@ -43,7 +43,7 @@ class LockingFile
 
     public function writeString($string)
     {
-        if (!$this->open()) {
+        if (! $this->open()) {
             return false;
         }
 
@@ -56,7 +56,7 @@ class LockingFile
 
     public function modify(callable $callback)
     {
-        if (!$this->open()) {
+        if (! $this->open()) {
             return false;
         }
 
@@ -90,13 +90,13 @@ class LockingFile
     {
         File::makeDirectory(Path::directory($this->filename));
 
-        if (!$this->stream = fopen($this->filename, 'c+')) {
+        if (! $this->stream = fopen($this->filename, 'c+')) {
             dd("Unable to open file {$this->filename}");
 
             return false;
         }
 
-        if (!flock($this->stream, LOCK_EX)) {
+        if (! flock($this->stream, LOCK_EX)) {
             $this->close();
 
             Log::debug("Couldn't get the lock!");

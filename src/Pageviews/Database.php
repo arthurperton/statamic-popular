@@ -43,7 +43,7 @@ class Database
 
     public function create($overwrite = false)
     {
-        if (!$overwrite && $this->exists()) {
+        if (! $overwrite && $this->exists()) {
             return;
         }
 
@@ -78,7 +78,7 @@ class Database
     {
         $result = $this->db()->select('SELECT rowid FROM pageviews ORDER BY rowid DESC LIMIT 1');
 
-        if (!$result) {
+        if (! $result) {
             return null;
         }
 
