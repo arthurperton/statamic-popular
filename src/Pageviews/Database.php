@@ -67,14 +67,14 @@ class Database
         $timestamp = $timestamp ?? time();
 
         $this->query(function ($db) use ($entry, $timestamp) {
-            $db->insert('INSERT INTO pageviews (entry, timestamp) VALUES (?, ?)', [$entry, $timestamp]);
+            return $db->insert('INSERT INTO pageviews (entry, timestamp) VALUES (?, ?)', [$entry, $timestamp]);
         });
     }
 
     public function getGroupedPageviews()
     {
         $result = $this->query(function ($db) {
-            $db->select('SELECT rowid FROM pageviews ORDER BY rowid DESC LIMIT 1');
+            return $db->select('SELECT rowid FROM pageviews ORDER BY rowid DESC LIMIT 1');
         });
 
         if (! $result) {
@@ -83,8 +83,8 @@ class Database
 
         $lastId = (string) $result[0]->rowid;
 
-        $results = $this->query(function ($db) {
-            $db->select('SELECT entry, COUNT(*) AS views FROM pageviews WHERE rowid <= ? GROUP BY entry', [$lastId]);
+        $results = $this->query(function ($db) use ($lastId) {
+            return $db->select('SELECT entry, COUNT(*) AS views FROM pageviews WHERE rowid <= ? GROUP BY entry', [$lastId]);
         });
 
         return [$results, $lastId];
@@ -93,7 +93,7 @@ class Database
     public function deletePageViews($lastId)
     {
         $this->query(function ($db) use ($lastId) {
-            $db->delete('DELETE FROM pageviews WHERE rowid <= ?', [$lastId]);
+            return $db->delete('DELETE FROM pageviews WHERE rowid <= ?', [$lastId]);
         });
     }
 
@@ -103,9 +103,9 @@ class Database
             return $callback($this->db());
         } catch (QueryException $e) {
             \Log::error("The temporary pageviews database for the Popular addon seems to be corrupt and will be re-created now. Original exception: $e");
-            
+
             $this->create(true);
-            
+
             if ($retry) {
                 return $this->query($callback, false);
             }
