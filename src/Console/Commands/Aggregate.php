@@ -38,6 +38,10 @@ class Aggregate extends Command
      */
     public function handle()
     {
-        return (new Aggregator)->aggregate() ? 0 : 1;
+        $result = (new Aggregator)->aggregate();
+
+        $this->info("$result pageviews aggregated");
+        
+        return $result === false ? 1 : 0;
     }
 }
