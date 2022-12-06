@@ -30,7 +30,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->collectionIncluded('excluded'));
     }
 
-     /**
+    /**
      * @test
      */
     public function it_excludes_collections_with_wildcards()
