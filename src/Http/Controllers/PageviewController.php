@@ -9,6 +9,12 @@ class PageviewController
 {
     public function store(Request $request, Database $database)
     {
-        $database->addPageview($request->post('entry'));
+        $json = $request->getContent();
+
+        $data = json_decode($json);
+
+        if ($entry = $data->entry ?? null) {
+            $database->addPageview($entry);
+        }
     }
 }

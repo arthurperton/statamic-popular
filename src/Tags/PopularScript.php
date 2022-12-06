@@ -8,17 +8,20 @@ class PopularScript extends Tags
 {
     public function index()
     {
+        $id = $this->params['id'] ?? $this->context['id'] ?? null;
+
+        if (! $id) {
+            return '<!-- Popular script omitted (id was not provided or available) -->';
+        }
+
         return str_replace(["\r", "\n", '  '], '', sprintf("
             <script>
                 (function(){
-                    var formData = new FormData();
-        
-                    formData.append('_token', '%s');
-                    formData.append('entry', '%s');
-        
-                    navigator.sendBeacon('/!/popular/pageviews', formData);
+                    const url = '/!/popular/pageviews';
+                    const body = JSON.stringify({ entry: '%s' });
+                    (navigator.sendBeacon && navigator.sendBeacon(url, body)) || fetch(url, { body, method: 'POST' });
                 })();
             </script>
-        ", csrf_token(), $this->context['id']));
+        ", $id));
     }
 }
