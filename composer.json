@@ -5,6 +5,11 @@
       "ArthurPerton\\Popular\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "extra": {
     "statamic": {
       "name": "Popular",
