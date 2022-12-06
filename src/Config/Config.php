@@ -23,7 +23,7 @@ class Config
         $include = ! $this->match($excludes, $handle) && $this->match($includes, $handle);
 
         $this->collections->put($handle, $include);
-        
+
         return $include;
     }
 
