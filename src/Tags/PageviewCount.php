@@ -6,7 +6,7 @@ use ArthurPerton\Popular\Facades\Pageviews;
 use Statamic\Fields\Value;
 use Statamic\Tags\Tags;
 
-class PopularPageviews extends Tags
+class PageviewCount extends Tags
 {
     public function index()
     {

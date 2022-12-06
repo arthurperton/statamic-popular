@@ -20,7 +20,7 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     protected $tags = [
-        Tags\PopularPageviews::class,
+        Tags\PageviewCount::class,
         Tags\PopularScript::class,
     ];
 
