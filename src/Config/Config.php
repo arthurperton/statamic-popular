@@ -4,16 +4,27 @@ namespace ArthurPerton\Popular\Config;
 
 class Config
 {
-    public function includeCollection(string $handle): bool
+    protected $collections;
+
+    public function __construct()
     {
+        $this->collections = collect();
+    }
+
+    public function collectionIncluded(string $handle): bool
+    {
+        if (! is_null($include = $this->collections->get($handle))) {
+            return $include;
+        }
+
         $excludes = config('popular.exclude_collections') ?? [];
         $includes = config('popular.include_collections') ?? ['*'];
 
-        if ($this->match($excludes, $handle)) {
-            return false;
-        }
+        $include = ! $this->match($excludes, $handle) && $this->match($includes, $handle);
 
-        return $this->match($includes, $handle);
+        $this->collections->put($handle, $include);
+        
+        return $include;
     }
 
     private function match(array $patterns, string $handle): bool
@@ -31,7 +42,6 @@ class Config
                 return false;
             }
 
-            // TODO is it worth to cache the patterns?
             return preg_match('/^'.str_replace('*', '.*', $pattern).'$/', $handle);
         });
     }

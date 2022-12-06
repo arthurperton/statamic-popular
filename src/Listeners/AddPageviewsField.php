@@ -2,7 +2,7 @@
 
 namespace ArthurPerton\Popular\Listeners;
 
-use ArthurPerton\Popular\Config\Config;
+use ArthurPerton\Popular\Facades\Config;
 use Statamic\Entries\Collection;
 use Statamic\Entries\Entry;
 use Statamic\Events\EntryBlueprintFound;
@@ -23,7 +23,7 @@ class AddPageviewsField
             return;
         }
 
-        if (! (new Config)->includeCollection($collection->handle())) {
+        if (! Config::collectionIncluded($collection->handle())) {
             return;
         }
 

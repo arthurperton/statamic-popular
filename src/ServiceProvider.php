@@ -2,7 +2,7 @@
 
 namespace ArthurPerton\Popular;
 
-use ArthurPerton\Popular\Config\Config;
+use ArthurPerton\Popular\Facades\Config;
 use ArthurPerton\Popular\Facades\Pageviews;
 use ArthurPerton\Popular\Pageviews\Database;
 use Statamic\Facades\Collection;
@@ -61,7 +61,7 @@ class ServiceProvider extends AddonServiceProvider
     protected function createComputedValues()
     {
         Collection::handles()->each(function ($handle) {
-            if (! (new Config)->includeCollection($handle)) {
+            if (! Config::collectionIncluded($handle)) {
                 return;
             }
 
