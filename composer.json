@@ -23,9 +23,12 @@
             ]
         }
     },
+    "require": {
+        "php": "^7.4 || ^8.0 || ^8.1",
+        "statamic/cms": ">=3.3.48 <3.4"
+    },
     "require-dev": {
         "laravel/pint": "^1.2",
-        "statamic/cms": "^3.3",
         "phpunit/phpunit": "^9.5",
         "orchestra/testbench": "^7.13"
     },
