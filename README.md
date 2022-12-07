@@ -23,7 +23,11 @@ List your top 5 most popular blog posts:
 
 ## Requirements
 
-- Statamic v3
+- PHP 7.4+
+- Statamic v3.3.48+
+- PHP SQLite3 extension *
+
+\* The SQLite3 extension is enabled by default. It doesn't need any additional setup on Unix-like systems.
 
 ## License
 
