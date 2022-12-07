@@ -11,12 +11,12 @@
 
 ## Templating
 
-List you top 5 most popular blog posts:
+List your top 5 most popular blog posts:
 
 ```antlers
 <ol>
-    {{ collection from="blog" limit="5" sort="has_pageviews|pageviews:desc" }}
-        <li>{{ title }}</li>
+    {{ collection from="blog" limit="5" sort="pageviews:desc" }}
+        <li>{{ title }} ({{ pageviews }})</li>
     {{ /collection }}
 </ol>
 ```
@@ -28,8 +28,6 @@ List you top 5 most popular blog posts:
 ## License
 
 Popular is **commercial software** but has an open-source codebase. If you want to use it in production, you'll need to [buy a license from the Statamic Marketplace](https://statamic.com/addons/arthurperton/popular).
-
-> Popular is **NOT** free software.
 
 ## Credits
 

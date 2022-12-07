@@ -1,10 +1,22 @@
 # Documentation
 
+(WIP)
+
 ## Installation
 
-## Templating
+Install using composer:
 
-### Setting up the Pageview Tracker
+```
+composer require arthurperton/popular
+```
+
+Publish config (optional):
+
+```
+php artisan vendor:publish --tag=popular-config
+```
+
+## Add the Pageview Tracker to Your Layout
 
 Add the Popular Script Tag just before your `</body>` tag.
 
@@ -13,7 +25,11 @@ Add the Popular Script Tag just before your `</body>` tag.
     </body>
 ```
 
+## Templating
+
 ### Using the Pageviews Computed Field
+
+All entries have a computed field called `pageviews` containing the current pageview count for that entry.
 
 ```antlers
 <ol>
@@ -29,23 +45,37 @@ Add the Popular Script Tag just before your `</body>` tag.
 
 ### Using the Pageview Count Tag
 
+Use the id from the current context:
+
 ```antlers
 {{ pageview_count }}
 ```
+
+Or specify the entry id:
 
 ```antlers
 {{ pageview_count id="home" }}
 ```
 
+Using a variable:
+
 ```antlers
 {{ pageview_count :id="some_variable" }}
 ```
 
-### Static Caching
+## Static Caching
+
+### Pageview Count Tag
+
+Just wrap your `{{ pageview_count }}` tag in a `{{ nocache }}` tag:
 
 ```antlers
 {{ nocache }} {{ pageview_count }} {{ /nocache }}
 ```
+
+### Collection Tag
+
+No need to wrap the entire collection tag pair. Just use the `{{ pageview_count }}` tag instead inside the loop and wrap that in a `{{ nocache }}` tag:
 
 ```antlers
 <ol>
@@ -61,8 +91,18 @@ Add the Popular Script Tag just before your `</body>` tag.
 
 ## Control Panel
 
+A `Pageviews` field will be shown in your blueprints automatically.
+
 ## Configuration
 
+You can disable to pageview tracker in your local environment:
+
+```env
+POPULAR_TRACKER_ENABLED=false
 ```
-php artisan vendor:publish --tag=popular-config
+
+You can also opt-out on adding the `Pageviews` field:
+
+```env
+POPULAR_ADD_FIELD=false
 ```
