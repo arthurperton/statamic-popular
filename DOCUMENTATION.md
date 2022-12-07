@@ -27,7 +27,7 @@ Add the Popular Script Tag just before your `</body>` tag.
 
 ## Templating
 
-### Using the Pageviews Computed Field
+### Using the Computed Field
 
 All entries have a computed field called `pageviews` containing the current pageview count for that entry.
 
@@ -95,14 +95,23 @@ A `Pageviews` field will be shown in your blueprints automatically.
 
 ## Configuration
 
-You can disable to pageview tracker in your local environment:
+You can disable to pageview tracker, for example in your local environment:
 
 ```env
 POPULAR_TRACKER_ENABLED=false
 ```
 
-You can also opt-out on adding the `Pageviews` field:
+You can also opt-out of automatically adding the `Pageviews` field:
 
 ```env
 POPULAR_ADD_FIELD=false
+```
+
+All collections are tracked by default. To include or exclude certain collections, update the config file at `config/popular.php`:
+
+```php
+return [
+    'include_collections' => ['*'],
+    'exclude_collections' => [],
+];
 ```
