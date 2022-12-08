@@ -9,9 +9,13 @@
 - Create lists for popular items, for example top 5 most popular blog posts
 - Show a read count for each article on your frontend
 
-## Templating
+## Documentation
 
-List your top 5 most popular blog posts:
+Have a look at the full [documentation](https://statamic.com/addons/arthurperton/popular/docs) for more details.
+
+## Templating Example
+
+To show a top 5 of your most read blog posts, simply do this:
 
 ```antlers
 <ol>
@@ -25,9 +29,8 @@ List your top 5 most popular blog posts:
 
 - PHP 7.4+
 - Statamic v3.3.48+
-- PHP SQLite3 extension *
 
-\* The SQLite3 extension is enabled by default. It doesn't need any additional setup on Unix-like systems.
+Popular uses the SQLite3 PHP extension, which is enabled by default.
 
 ## License
 
