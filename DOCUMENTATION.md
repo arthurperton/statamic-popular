@@ -93,6 +93,23 @@ No need to wrap the entire collection tag pair. Just use the `{{ pageview_count 
 
 A `Pageviews` field will be shown in your blueprints automatically.
 
+### Dashboard Widget
+
+You can add the Most Popular widget to your dashboard, which is (almost) a drop-in replacement for the Collection widget:
+
+```php
+// config/statamic/cp.php
+ 
+'widgets' => [
+    'getting_started',
+    [ 
+      'type' => 'most_popular',
+      'collection' => 'blog',
+      'limit' => 5,
+    ], 
+],
+```
+
 ## Configuration
 
 You can disable to pageview tracker, for example in your local environment:
