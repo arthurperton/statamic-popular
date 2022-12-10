@@ -95,7 +95,7 @@ A `Pageviews` field will be shown in your blueprints automatically.
 
 ### Dashboard Widget
 
-You can add the Most Popular widget to your dashboard, which is (almost) a drop-in replacement for the Collection widget:
+You can add the Popular widget to your dashboard, which is (almost) a drop-in replacement for the Collection widget:
 
 ```php
 // config/statamic/cp.php
@@ -103,7 +103,7 @@ You can add the Most Popular widget to your dashboard, which is (almost) a drop-
 'widgets' => [
     'getting_started',
     [ 
-      'type' => 'most_popular',
+      'type' => 'popular',
       'collection' => 'blog',
       'limit' => 5,
     ], 

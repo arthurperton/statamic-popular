@@ -6,7 +6,7 @@ use Statamic\Facades\Collection;
 use Statamic\Facades\User;
 use Statamic\Widgets\Widget;
 
-class MostPopular extends Widget
+class Popular extends Widget
 {
     /**
      * The HTML that should be shown in the widget.
@@ -17,17 +17,17 @@ class MostPopular extends Widget
     {
         $collection = $this->config('collection');
 
-        if (! Collection::handleExists($collection)) {
+        if (!Collection::handleExists($collection)) {
             return "Error: Collection [$collection] doesn't exist.";
         }
 
         $collection = Collection::findByHandle($collection);
 
-        if (! User::current()->can('view', $collection)) {
+        if (!User::current()->can('view', $collection)) {
             return;
         }
 
-        return view('popular::widgets.most-popular', [
+        return view('popular::widgets.popular', [
             'collection' => $collection,
             'title' => $this->config('title', $collection->title()),
             'button' => $collection->createLabel(),

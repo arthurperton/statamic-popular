@@ -24,8 +24,12 @@ class ServiceProvider extends AddonServiceProvider
         Tags\PopularScript::class,
     ];
 
+    protected $fieldtypes = [
+        Fieldtypes\Pageviews::class,
+    ];
+
     protected $widgets = [
-        Widgets\MostPopular::class,
+        Widgets\Popular::class,
     ];
 
     protected $commands = [
@@ -36,11 +40,11 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     protected $scripts = [
-        __DIR__.'/../dist/js/app.js',
+        __DIR__ . '/../dist/js/app.js',
     ];
 
     protected $routes = [
-        'web' => __DIR__.'/../routes/web.php',
+        'web' => __DIR__ . '/../routes/web.php',
     ];
 
     public function register()
@@ -62,12 +66,12 @@ class ServiceProvider extends AddonServiceProvider
     protected function createComputedValues()
     {
         Collection::handles()->each(function ($handle) {
-            if (! Config::collectionIncluded($handle)) {
+            if (!Config::collectionIncluded($handle)) {
                 return;
             }
 
             Collection::computed($handle, 'pageviews', function ($entry) {
-                if (! $id = $entry->id()) {
+                if (!$id = $entry->id()) {
                     return 0;
                 }
 

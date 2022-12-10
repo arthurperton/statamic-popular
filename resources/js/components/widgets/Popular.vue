@@ -12,16 +12,33 @@
             :sort-column="sortColumn"
             :sort-direction="sortDirection"
         >
-            <div slot-scope="{ }">
+            <div slot-scope="{}">
                 <data-list-table :loading="loading">
-                    <template slot="cell-title" slot-scope="{ row: entry, displayIndex: index }">
+                    <template
+                        slot="cell-title"
+                        slot-scope="{ row: entry, displayIndex: index }"
+                    >
                         <div class="flex justify-between items-center">
                             <div class="flex-1 flex">
-                                <div class="mr-2 px-1 bg-grey-30 text-grey-80 rounded-full">{{ offset + index + 1 }}</div>
+                                <div
+                                    class="
+                                        mr-2
+                                        px-1
+                                        bg-grey-30
+                                        text-grey-80
+                                        rounded-full
+                                    "
+                                >
+                                    {{ offset + index + 1 }}
+                                </div>
                                 <a :href="entry.edit_url">{{ entry.title }}</a>
                             </div>
-                            <div class="flex-0" v-tooltip="`${entry.pageviews ?? 0} views`">
-                                {{ pageviews(entry.pageviews) }} {{ __('views') }}
+                            <div
+                                class="flex-0"
+                                v-tooltip="`${entry.pageviews ?? 0} views`"
+                            >
+                                {{ pageviews(entry.pageviews) }}
+                                {{ __("views") }}
                             </div>
                         </div>
                     </template>
@@ -33,22 +50,22 @@
                     @page-selected="selectPage"
                     :scroll-to-top="false"
                 />
-                               
             </div>
         </data-list>
 
-        <p v-else-if="!initializing && !items.length" class="p-2 pt-1 text-sm text-grey-50">
-            {{ __('There are no entries in this collection') }}
+        <p
+            v-else-if="!initializing && !items.length"
+            class="p-2 pt-1 text-sm text-grey-50"
+        >
+            {{ __("There are no entries in this collection") }}
         </p>
-
     </div>
 </template>
 
 <script>
-import Listing from '../../../vendor/statamic/cms/resources/js/components/Listing.vue';
+import Listing from "../../../../vendor/statamic/cms/resources/js/components/Listing.vue";
 
 export default {
-
     mixins: [Listing],
 
     props: {
@@ -58,10 +75,10 @@ export default {
     data() {
         return {
             cols: [{ label: "Title", field: "title", visible: true }],
-            listingKey: 'entries',
+            listingKey: "entries",
             requestUrl: cp_url(`collections/${this.collection}/entries`),
             offset: 0,
-        }
+        };
     },
 
     watch: {
@@ -69,20 +86,19 @@ export default {
             if (!loading) {
                 this.offset = (this.page - 1) * this.perPage;
             }
-        }
+        },
     },
 
     methods: {
         pageviews(count) {
             if (!count) return 0;
 
-            if (count < 1E3) return count;
+            if (count < 1e3) return count;
 
-            if (count < 1E6) return `${Math.round(count / 1E3)}K`;
+            if (count < 1e6) return `${Math.round(count / 1e3)}K`;
 
-            return `${Math.round(count / 1E5) / 10}M`;
-        }
+            return `${Math.round(count / 1e5) / 10}M`;
+        },
     },
-
-}
+};
 </script>
