@@ -15,14 +15,14 @@ class Aggregator
             return 0;
         }
 
-        [$updates, $lastId] = $result;
+        [$pageviews, $lastId] = $result;
 
-        if (! Pageviews::update($updates)) {
+        if (! Pageviews::addMultiple($pageviews)) {
             return false; // TODO error/exception?
         }
 
         $database->deletePageViews($lastId); // TODO what if this fails
 
-        return collect($updates)->sum->views;
+        return collect($pageviews)->sum();
     }
 }

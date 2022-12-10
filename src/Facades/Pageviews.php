@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static int get(string $entry)
  * @method static \Illuminate\Support\Collection all()
- * @method static bool update(array $updates)
+ * @method static bool addMultiple(array $updates)
+ * @method static bool setMultiple(array $updates)
  *
  * @see \ArthurPerton\Popular\Pageviews\Repository
  */

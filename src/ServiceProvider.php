@@ -29,8 +29,9 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     protected $commands = [
-        Console\Commands\CreateDatabase::class,
         Console\Commands\Aggregate::class,
+        Console\Commands\CreateDatabase::class,
+        Console\Commands\Reset::class,
         Console\Commands\Stress::class,
     ];
 

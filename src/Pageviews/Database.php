@@ -87,7 +87,11 @@ class Database
             return $db->select('SELECT entry, COUNT(*) AS views FROM pageviews WHERE rowid <= ? GROUP BY entry', [$lastId]);
         });
 
-        return [$results, $lastId];
+        $pageviews = collect($results)->mapWithKeys(function ($result) {
+            return [$result->entry => $result->views];
+        })->all();
+
+        return [$pageviews, $lastId];
     }
 
     public function deletePageViews($lastId)

@@ -25,22 +25,41 @@ class Repository
         return $this->items();
     }
 
-    public function update($updates): bool
+    public function addMultiple($pageviews): bool
     {
-        return $this->file->modify(function ($data) use ($updates) {
-            $this->items = collect($data ?: []);
-
-            collect($updates)->each(function ($update) {
-                $this->updateOne($update->entry, $update->views);
+        // TODO throw an exception on failure?
+        return $this->update(function ($items) use ($pageviews) {
+            collect($pageviews)->each(function ($views, $entry) use ($items) {
+                $items->put($entry, (int) $items->get($entry, 0) + $views);
             });
 
-            return $this->items->all();
+            return $items;
         });
     }
 
-    protected function updateOne($entry, $views)
+    public function setMultiple($pageviews): bool
     {
-        $this->items()->put($entry, (int) $this->items()->get($entry, 0) + $views);
+        // TODO throw an exception on failure?
+        return $this->update(function ($items) use ($pageviews) {
+            return $items->merge($pageviews);
+        });
+    }
+
+    public function resetMultiple($ids): bool
+    {
+        // TODO throw an exception on failure?
+        return $this->update(function ($items) use ($ids) {
+            return $items->forget($ids);
+        });
+    }
+
+    protected function update(callable $callback): bool
+    {
+        return $this->file->modify(function ($data) use ($callback) {
+            $this->items = $callback(collect($data ?: []));
+
+            return $this->items->all();
+        });
     }
 
     protected function items(): Collection
