@@ -14,6 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [Fieldtype],
+  inject: ['storeName'],
   data: function data() {
     return {
       editing: false,
@@ -24,6 +25,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     input: function input() {
       return this.$refs.input.$refs.input;
+    },
+    entry: function entry() {
+      return this.$store.state.publish[this.storeName].values.id;
     }
   },
   methods: {
@@ -38,35 +42,30 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       this.stopEditing();
       this.saving = true;
-      setTimeout(function () {
+      this.$axios.patch(cp_url("popular/pageviews/".concat(this.entry)), {
+        views: this.pending
+      }).then(function () {
+        var dirty = _this.$dirty.has(_this.storeName);
         _this.update(_this.pending);
-        _this.saving = false;
+        _this.$dirty.state(_this.storeName, dirty);
         _this.$toast.success(__("Pageviews updated"));
-      }, 1000);
-      // this.$axios
-      //     .post(cp_url(`popular/pageviews/${"entry_id"}`), {
-      //         views: this.pending,
-      //     })
-      //     .then(() => {
-      //         this.update(this.pending);
-
-      //         this.$toast.success(__("Pageviews updated"));
-      //     })
-      //     .catch(() => {
-      //         this.pending = this.value;
-
-      //         this.$toast.error(__("Something went wrong"));
-      //     })
-      //     .finally(() => {
-      //         this.saving = false;
-      //     });
+      })["catch"](function () {
+        _this.resetPending();
+        _this.$toast.error(__("Something went wrong"));
+      })["finally"](function () {
+        _this.saving = false;
+      });
     },
     cancel: function cancel() {
       this.stopEditing();
-      this.pending = this.value;
+      this.resetPending();
     },
     updatePending: function updatePending(value) {
-      this.pending = value;
+      this.pending = parseInt(value);
+      if (this.pending < 0) this.pending = 0;
+    },
+    resetPending: function resetPending() {
+      this.pending = this.value;
     }
   }
 });
@@ -298,7 +297,7 @@ var render = function render() {
   return _c("div", [_c("text-input", {
     ref: "input",
     attrs: {
-      type: "number",
+      type: _vm.editing ? "number" : "text",
       "is-read-only": !_vm.editing,
       value: _vm.pending
     },
@@ -312,7 +311,7 @@ var render = function render() {
       inline: "",
       text: _vm.__("Saving")
     }
-  })], 1) : _c("div", {
+  })], 1) : _vm.config.editable ? _c("div", {
     staticClass: "mt-1 h-6 px-1 flex justify-between text-sm"
   }, [!_vm.editing ? _c("button", {
     staticClass: "text-button text-blue hover:text-grey-80 mr-3 flex items-center outline-none",
@@ -329,7 +328,7 @@ var render = function render() {
     on: {
       click: _vm.confirm
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.__("Confirm")) + "\n        ")]) : _vm._e()])], 1);
+  }, [_vm._v("\n            " + _vm._s(_vm.__("Confirm")) + "\n        ")]) : _vm._e()]) : _vm._e()], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

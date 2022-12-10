@@ -6,12 +6,19 @@ use ArthurPerton\Popular\Facades\Config;
 use Statamic\Entries\Collection;
 use Statamic\Entries\Entry;
 use Statamic\Events\EntryBlueprintFound;
+use Statamic\Facades\User;
 
 class AddPageviewsField
 {
     public function handle(EntryBlueprintFound $event)
     {
-        if (!$blueprint = $event->blueprint) {
+        $user = User::current();
+
+        if (! $user->can('view pageviews')) {
+            return;
+        }
+
+        if (! $blueprint = $event->blueprint) {
             return;
         }
 
@@ -19,23 +26,23 @@ class AddPageviewsField
             return;
         }
 
-        if (!$collection = $this->getCollection($blueprint)) {
+        if (! $collection = $this->getCollection($blueprint)) {
             return;
         }
 
-        if (!Config::collectionIncluded($collection->handle())) {
+        if (! Config::collectionIncluded($collection->handle())) {
             return;
         }
 
         // TODO change this sidebar logic. Field should at least always show on
         // the list view.
-        if (!$blueprint->hasSection('sidebar')) {
+        if (! $blueprint->hasSection('sidebar')) {
             return;
         }
 
         $contents = $blueprint->contents();
 
-        if (!isset($contents['sections']['sidebar']['fields'])) {
+        if (! isset($contents['sections']['sidebar']['fields'])) {
             $contents['sections']['sidebar']['fields'] = [];
         }
 
@@ -44,6 +51,7 @@ class AddPageviewsField
             'field' => [
                 'type' => 'pageviews',
                 'visibility' => 'computed',
+                'editable' => $user->can('edit pageviews'),
             ],
         ];
 
