@@ -29,6 +29,10 @@ class ServiceProvider extends AddonServiceProvider
         Fieldtypes\Pageviews::class,
     ];
 
+    protected $modifiers = [
+        Modifiers\Shorten::class,
+    ];
+
     protected $widgets = [
         Widgets\Popular::class,
     ];
