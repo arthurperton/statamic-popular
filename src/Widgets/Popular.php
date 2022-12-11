@@ -17,13 +17,13 @@ class Popular extends Widget
     {
         $collection = $this->config('collection');
 
-        if (!Collection::handleExists($collection)) {
+        if (! Collection::handleExists($collection)) {
             return "Error: Collection [$collection] doesn't exist.";
         }
 
         $collection = Collection::findByHandle($collection);
 
-        if (!User::current()->can('view', $collection)) {
+        if (! User::current()->can('view', $collection)) {
             return;
         }
 
