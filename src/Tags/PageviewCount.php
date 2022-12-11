@@ -20,6 +20,8 @@ class PageviewCount extends Tags
             $id = $id->value();
         }
 
-        return Pageviews::get($id);
+        $count = Pageviews::get($id);
+
+        return $this->isPair ? ['pageviews' => $count] : $count;
     }
 }
