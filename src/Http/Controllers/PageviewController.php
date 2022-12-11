@@ -11,11 +11,7 @@ class PageviewController extends CpController
 {
     public function store(Request $request, Database $database)
     {
-        $json = $request->getContent();
-
-        $data = json_decode($json);
-
-        if ($entry = $data->entry ?? null) {
+        if ($entry = $request->entry ?? null) {
             $database->addPageview($entry);
         }
     }

@@ -14,14 +14,41 @@ class PopularScript extends Tags
             return '<!-- Popular script omitted (id was not provided or available) -->';
         }
 
-        return str_replace(["\r", "\n", '  '], '', sprintf("
+        $csrfToken = csrf_token();
+
+        $html = "
+            <input id=\"popular-csrf-token\" type=\"hidden\" value=\"$csrfToken\" />
             <script>
                 (function(){
+                    const entry = '$id';
+                    
+                    const entries = JSON.parse(
+                        sessionStorage.getItem('popular-entries') || '[]'
+                    );
+
+                    if (entries.includes(entry)) {
+                        return;
+                    }
+
+                    sessionStorage.setItem(
+                        'popular-entries', 
+                        JSON.stringify([...entries, entry]),
+                    );
+
+                    const csrfToken = document.querySelector('#popular-csrf-token').value;
+
+                    const body = new FormData();
+        
+                    body.append('_token', csrfToken);
+                    body.append('entry', entry);
+
                     const url = '/!/popular/pageviews';
-                    const body = JSON.stringify({ entry: '%s' });
+
                     (navigator.sendBeacon && navigator.sendBeacon(url, body)) || fetch(url, { body, method: 'POST' });
                 })();
             </script>
-        ", $id));
+        ";
+
+        return str_replace(["\r", "\n", '  '], '', $html);
     }
 }
