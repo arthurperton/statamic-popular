@@ -15,6 +15,10 @@ class Popular extends Widget
      */
     public function html()
     {
+        if (! User::current()->can('view pageviews')) {
+            return;
+        }
+
         $collection = $this->config('collection');
 
         if (! Collection::handleExists($collection)) {
