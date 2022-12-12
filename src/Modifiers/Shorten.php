@@ -12,14 +12,19 @@ class Shorten extends Modifier
             return 0;
         }
 
-        if ($value < 1E3) {
-            return $value;
+        return $this->shorten($value);
+    }
+    
+    protected function shorten($number) {
+        if ($number < 1E3) {
+            return $number;
         }
 
-        if ($value < 1E6) {
-            return round($value / 1E3, 0).'K';
+        foreach(['K', 'M', 'B', 'T'] as $suffix) {
+            $number /= 1E3;
+            if ($number < 1E3) break;
         }
 
-        return round($value / 1E6, 1).'M';
+        return round($number, $number < 10 ? 1 : 0).$suffix;
     }
 }
