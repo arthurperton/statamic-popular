@@ -71,21 +71,6 @@ class LockingFile
         return true;
     }
 
-    // public function update(callable $callback)
-    // {
-    //     if (!$this->open()) {
-    //         return false;
-    //     }
-
-    //     $data = $callback();
-
-    //     $this->writeDataToStream($data);
-
-    //     $this->close();
-
-    //     return true;
-    // }
-
     protected function open()
     {
         File::makeDirectory(Path::directory($this->filename));
@@ -99,7 +84,7 @@ class LockingFile
         if (! flock($this->stream, LOCK_EX)) {
             $this->close();
 
-            Log::debug("Couldn't get the lock!");
+            \Log::debug("Couldn't get the lock!");
 
             return false;
         }
