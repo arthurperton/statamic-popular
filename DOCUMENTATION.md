@@ -1,30 +1,39 @@
 # Documentation
 
-(WIP)
+* [Installation](#installation)
+* [Setup](#setup)
+* [Templating](#templating)
+* [Static Caching](#static-caching)
+* [Control Panel](#control-panel)
+* [Dashboard Widget](#dashboard-widget)
+* [Configuration](#configuration)
 
+<a name="installation"></a>
 ## Installation
 
-Install using composer:
+You can install the addon using composer:
 
 ```
 composer require arthurperton/popular
 ```
 
-Publish config (optional):
+To publish the config (optional) use:
 
 ```
 php artisan vendor:publish --tag=popular-config
 ```
 
-## Add the Pageview Tracker to Your Layout
+<a name="setup"></a>
+## Setup
 
-Add the Popular Script Tag just before your `</body>` tag.
+Basic setup requires one step. Just add the Popular Script Tag just before your `</body>` tag.
 
 ```antlers
     {{ popular_script }}
     </body>
 ```
 
+<a name="templating"></a>
 ## Templating
 
 ### Using the Computed Field
@@ -43,15 +52,15 @@ All entries have a computed field called `pageviews` containing the current page
 </ol>
 ```
 
-### Using the Pageview Count Tag
+### Using the Tag
 
-Use the id from the current context:
+Alternatively you can use the `{{ pageview_count }}` tag anywhere in your template. It will get the entry `id` from the context:
 
 ```antlers
 {{ pageview_count }}
 ```
 
-Or specify the entry id:
+Or you can provide it using a parameter:
 
 ```antlers
 {{ pageview_count id="home" }}
@@ -63,7 +72,10 @@ Using a variable:
 {{ pageview_count :id="some_variable" }}
 ```
 
+<a name="static-caching"></a>
 ## Static Caching
+
+Popular was designed with static caching in mind. By simply using the `{{ nocache }}` tag you can combine fast page loads with current pageview counts.
 
 ### Pageview Count Tag
 
@@ -75,7 +87,7 @@ Just wrap your `{{ pageview_count }}` tag in a `{{ nocache }}` tag:
 
 ### Collection Tag
 
-No need to wrap the entire collection tag pair. Just use the `{{ pageview_count }}` tag instead inside the loop and wrap that in a `{{ nocache }}` tag:
+No need to wrap the entire collection tag pair. Instead just use the `{{ pageview_count }}` tag inside the loop and wrap that in a `{{ nocache }}` tag:
 
 ```antlers
 <ol>
@@ -88,12 +100,13 @@ No need to wrap the entire collection tag pair. Just use the `{{ pageview_count 
     {{ /collection:blog }}
 </ol>
 ```
-
+<a name="control-panel"></a>
 ## Control Panel
 
 A `Pageviews` field will be shown in your blueprints automatically.
 
-### Dashboard Widget
+<a name="dashboard-widget"></a>
+## Dashboard Widget
 
 You can add the Popular widget to your dashboard, which is (almost) a drop-in replacement for the Collection widget:
 
@@ -110,9 +123,10 @@ You can add the Popular widget to your dashboard, which is (almost) a drop-in re
 ],
 ```
 
+<a name="configuration"></a>
 ## Configuration
 
-You can disable to pageview tracker, for example in your local environment:
+You can disable to pageview tracker if you want, for example in your local environment. Just put this in your `.env` file:
 
 ```env
 POPULAR_TRACKER_ENABLED=false
