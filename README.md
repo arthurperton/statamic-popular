@@ -48,4 +48,4 @@ Popular is **commercial software** but has an open-source codebase. If you want 
 
 ## Credits
 
-Developed by [Arthur Perton](https://www.webenapp.nl)
+Developed by [Arthur Perton](https://github.com/arthurperton)
