@@ -3,11 +3,21 @@
 
 # Popular – addon for Statamic
 
-**Popular** tracks the popular of your content. It registers all page views for individual pages and entries.
+Want to track popular content or show a top 5 of your most read blog posts? Popular is the missing page view tracker for your Statamic website. Fast, batteries included and build for scale.
+
+Popular registers all page views for individual pages and entries.
 
 - Always know which content is the most popular with your visitors
 - Create lists for popular items, for example top 5 most popular blog posts
 - Show a read count for each article on your frontend
+
+## Features
+
+- Easy setup
+- Automatically adds a Pageviews field to your publish forms in the Control Panel
+- Adds a computed field to your entries
+- Includes a dedicated tag 
+- Dashboard widget
 
 ## Documentation
 
