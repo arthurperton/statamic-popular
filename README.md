@@ -1,5 +1,5 @@
 ![GitHub release](https://flat.badgen.net/github/release/arthurperton/statamic-popular)
-![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E)
+![Statamic](https://flat.badgen.net/badge/Statamic/3.3.48+/FF269E)
 
 # Popular – addon for Statamic
 
