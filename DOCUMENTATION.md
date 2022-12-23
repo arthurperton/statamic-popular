@@ -72,6 +72,34 @@ Using a variable:
 {{ pageview_count :id="some_variable" }}
 ```
 
+### Shorten Modifier
+
+Sometimes you want to display large numbers in a shortened format. So for example `25,314` becomes `25K`. The `shorten` modifier does that for you.
+
+```antlers
+    {{ pageviews | shorten }}
+```
+
+Some examples:
+
+```yaml
+    dozen: 12
+    lots: 25314
+    omg: 9245021
+```
+
+```antlers
+    {{ dozen | shorten }}
+    {{ lots | shorten }}
+    {{ omg | shorten }}
+```
+
+```html
+    12
+    25K
+    9.2M
+```
+
 <a name="static-caching"></a>
 ## Static Caching
 
