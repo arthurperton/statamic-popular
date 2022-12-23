@@ -29,8 +29,8 @@ php artisan vendor:publish --tag=popular-config
 Basic setup requires one step. Just add the Popular Script Tag just before your `</body>` tag.
 
 ```antlers
-    {{ popular_script }}
-    </body>
+{{ popular_script }}
+</body>
 ```
 
 <a name="templating"></a>
@@ -83,21 +83,21 @@ Sometimes you want to display large numbers in a shortened format. So for exampl
 Some examples:
 
 ```yaml
-    dozen: 12
-    lots: 25314
-    omg: 9245021
+dozen: 12
+lots: 25314
+omg: 9245021
 ```
 
 ```antlers
-    {{ dozen | shorten }}
-    {{ lots | shorten }}
-    {{ omg | shorten }}
+{{ dozen | shorten }}
+{{ lots | shorten }}
+{{ omg | shorten }}
 ```
 
 ```html
-    12
-    25K
-    9.2M
+12
+25K
+9.2M
 ```
 
 <a name="static-caching"></a>
