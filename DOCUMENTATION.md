@@ -77,7 +77,7 @@ Using a variable:
 Sometimes you want to display large numbers in a shortened format. So for example `25,314` becomes `25K`. The `shorten` modifier does that for you.
 
 ```antlers
-    {{ pageviews | shorten }}
+{{ pageviews | shorten }}
 ```
 
 Some examples:
