@@ -6,6 +6,7 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Statamic\Facades\File;
 use Statamic\Facades\Path;
@@ -113,7 +114,7 @@ class Database
         try {
             return $callback($this->db());
         } catch (QueryException $e) {
-            \Log::error("The temporary pageviews database for the Popular addon seems to be corrupt and will be re-created now. Original exception: $e");
+            Log::error("The temporary pageviews database for the Popular addon seems to be corrupt and will be re-created now. Original exception: $e");
 
             $this->create(true);
 
