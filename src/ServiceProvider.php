@@ -79,9 +79,7 @@ class ServiceProvider extends AddonServiceProvider
     {
         $this->createComputedValues();
 
-        // Statamic::afterInstalled(function () {
         $this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
-        // });
     }
 
     protected function createComputedValues()
