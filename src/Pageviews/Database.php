@@ -101,6 +101,13 @@ class Database
         });
     }
 
+    public function deletePageViewsForEntry($id)
+    {
+        $this->query(function ($db) use ($id) {
+            return $db->delete('DELETE FROM pageviews WHERE entry = ?', [$id]);
+        });
+    }
+
     public function query(callable $callback, $retry = true)
     {
         try {
