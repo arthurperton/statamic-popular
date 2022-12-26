@@ -2,17 +2,17 @@
 
 namespace ArthurPerton\Popular\Http\Controllers;
 
+use ArthurPerton\Popular\Facades\Database;
 use ArthurPerton\Popular\Facades\Pageviews;
-use ArthurPerton\Popular\Pageviews\Database;
 use Illuminate\Http\Request;
 use Statamic\Http\Controllers\CP\CpController;
 
 class PageviewController extends CpController
 {
-    public function store(Request $request, Database $database)
+    public function store(Request $request)
     {
         if ($entry = $request->entry ?? null) {
-            $database->addPageview($entry);
+            Database::addPageview($entry);
         }
     }
 

@@ -3,8 +3,8 @@
 namespace ArthurPerton\Popular;
 
 use ArthurPerton\Popular\Facades\Config;
+use ArthurPerton\Popular\Facades\Database;
 use ArthurPerton\Popular\Facades\Pageviews;
-use ArthurPerton\Popular\Pageviews\Database;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Permission;
 use Statamic\Providers\AddonServiceProvider;
@@ -53,13 +53,6 @@ class ServiceProvider extends AddonServiceProvider
         'web' => __DIR__.'/../routes/web.php',
     ];
 
-    public function register()
-    {
-        $this->app->singleton(Database::class, function () {
-            return new Database();
-        });
-    }
-
     public function boot()
     {
         parent::boot();
@@ -79,7 +72,7 @@ class ServiceProvider extends AddonServiceProvider
     {
         $this->createComputedValues();
 
-        $this->app->make(Database::class)->create(); // database will only be created if it doesn't exist yet
+        Database::create(); // database will only be created if it doesn't exist yet
     }
 
     protected function createComputedValues()

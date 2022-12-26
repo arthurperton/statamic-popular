@@ -2,15 +2,14 @@
 
 namespace ArthurPerton\Popular\Pageviews;
 
+use ArthurPerton\Popular\Facades\Database;
 use ArthurPerton\Popular\Facades\Pageviews;
 
 class Aggregator
 {
     public function aggregate(): int|false
     {
-        $database = app(Database::class);
-
-        $result = $database->getGroupedPageviews();
+        $result = Database::getGroupedPageviews();
         if (! $result) {
             return 0;
         }
@@ -21,7 +20,7 @@ class Aggregator
             return false; // TODO error/exception?
         }
 
-        $database->deletePageViews($lastId); // TODO what if this fails
+        Database::deletePageViews($lastId); // TODO what if this fails
 
         return collect($pageviews)->sum();
     }

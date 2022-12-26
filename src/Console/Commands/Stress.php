@@ -2,7 +2,7 @@
 
 namespace ArthurPerton\Popular\Console\Commands;
 
-use ArthurPerton\Popular\Pageviews\Database;
+use ArthurPerton\Popular\Facades\Database;
 use Illuminate\Console\Command;
 use Statamic\Facades\Entry;
 
@@ -37,7 +37,7 @@ class Stress extends Command
      *
      * @return int
      */
-    public function handle(Database $database)
+    public function handle()
     {
         $frequency = $this->option('frequency') ?? 1;
 
@@ -52,7 +52,7 @@ class Stress extends Command
             // echo "$id\n";
             echo "$i\n";
 
-            $database->addPageview($id);
+            Database::addPageview($id);
 
             $i++;
 

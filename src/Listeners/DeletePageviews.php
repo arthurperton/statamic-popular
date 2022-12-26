@@ -2,8 +2,8 @@
 
 namespace ArthurPerton\Popular\Listeners;
 
+use ArthurPerton\Popular\Facades\Database;
 use ArthurPerton\Popular\Facades\Pageviews;
-use ArthurPerton\Popular\Pageviews\Database;
 use Statamic\Events\EntryDeleted;
 
 class DeletePageviews
@@ -14,6 +14,6 @@ class DeletePageviews
 
         Pageviews::deleteMultiple([$id]);
 
-        (app()->make(Database::class))->deletePageViewsForEntry($id);
+        Database::deletePageViewsForEntry($id);
     }
 }
