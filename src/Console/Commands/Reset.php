@@ -30,7 +30,7 @@ class Reset extends Command
                 return $collection->queryEntries()->get()->map->id();
             })->all();
 
-        if (! Pageviews::resetMultiple($ids)) {
+        if (! Pageviews::deleteMultiple($ids)) {
             return 1;
         }
 

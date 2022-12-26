@@ -45,7 +45,7 @@ class Repository
         });
     }
 
-    public function resetMultiple($ids): bool
+    public function deleteMultiple($ids): bool
     {
         // TODO throw an exception on failure?
         return $this->update(function ($items) use ($ids) {
