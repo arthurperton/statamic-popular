@@ -2,6 +2,7 @@
 
 namespace ArthurPerton\Popular\Pageviews;
 
+use Carbon\Carbon;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,23 +15,21 @@ use Statamic\Facades\Path;
 class Database
 {
     protected $path;
-    protected $connection;
+    protected $connectionName = 'popular';
 
     public function __construct()
     {
-        $this->path = Path::assemble(config('popular.database'), 'pageviews.sqlite');
+        $this->path = Path::assemble(config('popular.database', database_path('popular')), 'pageviews.sqlite');
 
         config(['database.connections.popular' => [
             'driver' => 'sqlite',
             'database' => $this->path,
         ]]);
-
-        $this->connection = 'popular';
     }
 
     public function path(): string
     {
-        return $this->path();
+        return $this->path;
     }
 
     public function exists(): bool
@@ -48,9 +47,9 @@ class Database
 
         File::put($this->path, '');
 
-        $schema = Schema::connection($this->connection);
+        $schema = Schema::connection($this->connectionName);
 
-        $schema->create('pageviews', function (Blueprint $table) {
+        $schema->create('pageview', function (Blueprint $table) {
             $table->string('entry')->index();
             $table->timestamp('timestamp')->index();
         });
@@ -65,17 +64,17 @@ class Database
 
     public function addPageview($entry, $timestamp = null)
     {
-        $timestamp = $timestamp ?? time();
+        $timestamp = $timestamp ?? Carbon::now()->timestamp;
 
         $this->query(function ($db) use ($entry, $timestamp) {
-            return $db->insert('INSERT INTO pageviews (entry, timestamp) VALUES (?, ?)', [$entry, $timestamp]);
+            return $db->insert('INSERT INTO pageview (entry, timestamp) VALUES (?, ?)', [$entry, $timestamp]);
         });
     }
 
     public function getGroupedPageviews()
     {
         $result = $this->query(function ($db) {
-            return $db->select('SELECT rowid FROM pageviews ORDER BY rowid DESC LIMIT 1');
+            return $db->select('SELECT rowid FROM pageview ORDER BY rowid DESC LIMIT 1');
         });
 
         if (! $result) {
@@ -85,7 +84,7 @@ class Database
         $lastId = (string) $result[0]->rowid;
 
         $results = $this->query(function ($db) use ($lastId) {
-            return $db->select('SELECT entry, COUNT(*) AS views FROM pageviews WHERE rowid <= ? GROUP BY entry', [$lastId]);
+            return $db->select('SELECT entry, COUNT(*) AS views FROM pageview WHERE rowid <= ? GROUP BY entry', [$lastId]);
         });
 
         $pageviews = collect($results)->mapWithKeys(function ($result) {
@@ -98,18 +97,18 @@ class Database
     public function deletePageViews($lastId)
     {
         $this->query(function ($db) use ($lastId) {
-            return $db->delete('DELETE FROM pageviews WHERE rowid <= ?', [$lastId]);
+            return $db->delete('DELETE FROM pageview WHERE rowid <= ?', [$lastId]);
         });
     }
 
     public function deletePageViewsForEntry($id)
     {
         $this->query(function ($db) use ($id) {
-            return $db->delete('DELETE FROM pageviews WHERE entry = ?', [$id]);
+            return $db->delete('DELETE FROM pageview WHERE entry = ?', [$id]);
         });
     }
 
-    public function query(callable $callback, $retry = true)
+    protected function query(callable $callback, $retry = true)
     {
         try {
             return $callback($this->db());
@@ -124,8 +123,8 @@ class Database
         }
     }
 
-    protected function db(): ConnectionInterface
+    public function db(): ConnectionInterface
     {
-        return DB::connection($this->connection);
+        return DB::connection($this->connectionName);
     }
 }
