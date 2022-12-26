@@ -2,7 +2,6 @@
 
 namespace ArthurPerton\Popular\Facades;
 
-use ArthurPerton\Popular\Pageviews\Repository;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -17,6 +16,6 @@ class Pageviews extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return Repository::class;
+        return ArthurPerton\Popular\Pageviews\Repository::class;
     }
 }
