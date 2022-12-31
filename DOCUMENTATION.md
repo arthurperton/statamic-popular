@@ -6,7 +6,10 @@
 * [Static Caching](#static-caching)
 * [Control Panel](#control-panel)
 * [Dashboard Widget](#dashboard-widget)
+* [Permissions](#permissions)
 * [Configuration](#configuration)
+* [Commands](#commands)
+* [Testing](#testing)
 
 <a name="installation"></a>
 ## Installation
@@ -32,6 +35,8 @@ Basic setup requires one step. Just add the Popular Script Tag just before your 
 {{ popular_script }}
 </body>
 ```
+
+Popular will start tracking pageviews now. The total counts will be updated every minute.
 
 <a name="templating"></a>
 ## Templating
@@ -151,6 +156,13 @@ You can add the Popular widget to your dashboard, which is (almost) a drop-in re
 ],
 ```
 
+<a name="permissions"></a>
+## Permissions
+Two permissions are added: 
+* `view pageviews`
+* `edit pageviews`
+
+
 <a name="configuration"></a>
 ## Configuration
 
@@ -174,3 +186,16 @@ return [
     'exclude_collections' => [],
 ];
 ```
+
+<a name="commands"></a>
+## Commands
+
+If you want to reset all your pageview counts to zero in one go, you can use the `php please popular:reset` command in your CLI. Use it with care.
+
+<a name="testing"></a>
+## Testing
+
+You can try out Popular locally. A scheduled task runs every minute to update the total pageview counts, so make sure the scheduler is running. You can run it locally using `php artisan schedule:work`.
+
+Popular does its best to count a pageview just once per user session. So during testing, be aware that slamming that refresh button won't increase your pageview counts :)
+
