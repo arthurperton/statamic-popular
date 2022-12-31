@@ -23,6 +23,12 @@ class Reset extends Command
     {
         $collections = $this->getCollections();
 
+        if ($this->shouldAbort()) {
+            $this->info('Aborted successfully.');
+
+            return 0;
+        }
+
         $ids = $collections
             ->map(function ($handle) {
                 return Collection::findByHandle($handle);
@@ -72,5 +78,14 @@ class Reset extends Command
     private function collectionExists($collection): bool
     {
         return $this->collections()->contains($collection);
+    }
+
+    private function shouldAbort()
+    {
+        if ($this->option('no-interaction')) {
+            return false;
+        }
+
+        return ! $this->confirm('Are you sure you want to reset the pageview counts to zero?', false);
     }
 }
