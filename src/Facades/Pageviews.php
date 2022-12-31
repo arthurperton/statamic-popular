@@ -16,6 +16,6 @@ class Pageviews extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return ArthurPerton\Popular\Pageviews\Repository::class;
+        return \ArthurPerton\Popular\Pageviews\Repository::class;
     }
 }
