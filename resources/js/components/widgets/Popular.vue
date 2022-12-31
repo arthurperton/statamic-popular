@@ -37,7 +37,7 @@
                                 class="flex-0"
                                 v-tooltip="`${entry.pageviews ?? 0} views`"
                             >
-                                {{ pageviews(entry.pageviews) }}
+                                {{ shorten(entry.pageviews) }}
                                 {{ __("views") }}
                             </div>
                         </div>
@@ -90,14 +90,24 @@ export default {
     },
 
     methods: {
-        pageviews(count) {
-            if (!count) return 0;
+        shorten(number) {
+            if (!number) {
+                return 0;
+            }
 
-            if (count < 1e3) return count;
+             if (number < 1E3) {
+                return number;
+            }
 
-            if (count < 1e6) return `${Math.round(count / 1e3)}K`;
+            let suffix;
+            for (suffix of ['K', 'M', 'B', 'T']) {
+                number /= 1E3;
+                if (number < 1E3) {
+                    break;
+                }
+            }
 
-            return `${Math.round(count / 1e5) / 10}M`;
+            return `${Number(number.toFixed(number < 10 ? 1 : 0))}${suffix}`;
         },
     },
 };
