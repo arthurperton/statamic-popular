@@ -9,6 +9,7 @@
 * [Permissions](#permissions)
 * [Configuration](#configuration)
 * [Commands](#commands)
+* [Git](#git)
 * [Testing](#testing)
 
 <a name="installation"></a>
@@ -191,6 +192,11 @@ return [
 ## Commands
 
 If you want to reset all your pageview counts to zero in one go, you can use the `php please popular:reset` command in your CLI. Use it with care.
+
+<a name="git"></a>
+## Git
+
+You probably want your collected pageviews under version control. By default this file is at `storage\popular\pageviews` which is normally not ignored.
 
 <a name="testing"></a>
 ## Testing
