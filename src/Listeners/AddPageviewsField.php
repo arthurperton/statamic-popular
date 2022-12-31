@@ -12,7 +12,9 @@ class AddPageviewsField
 {
     public function handle(EntryBlueprintFound $event)
     {
-        $user = User::current();
+        if (!$user = User::current()) {
+            return;
+        }
 
         if (! $user->can('view pageviews')) {
             return;
