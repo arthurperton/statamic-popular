@@ -13,7 +13,7 @@ class PageviewCount extends Tags
         $id = $this->params['id'] ?? $this->context['id'] ?? null;
 
         if (! $id) {
-            return 0;
+            throw new \Exception("No id provided.");
         }
 
         if ($id instanceof Value) {
