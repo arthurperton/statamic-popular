@@ -20,7 +20,7 @@ class Aggregator
             return false; // TODO error/exception?
         }
 
-        Database::deletePageViews($lastId); // TODO what if this fails
+        Database::deletePageViews($lastId);
 
         return collect($pageviews)->sum();
     }
