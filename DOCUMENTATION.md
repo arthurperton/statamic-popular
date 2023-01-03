@@ -30,7 +30,7 @@ php artisan vendor:publish --tag=popular-config
 <a name="setup"></a>
 ## Setup
 
-Basic setup requires one step. Just add the Popular Script Tag just before your `</body>` tag.
+Basic setup requires one step: add the Popular Script Tag just before your `</body>` tag.
 
 ```antlers
 {{ popular_script }}
@@ -41,6 +41,8 @@ Popular will start tracking pageviews now. The total counts will be updated ever
 
 <a name="templating"></a>
 ## Templating
+
+There are two ways of display pageview counts on the frontend. You can use the computed field on your entries or try the dedicated tag. 
 
 ### Using the Computed Field
 
@@ -159,7 +161,9 @@ You can add the Popular widget to your dashboard, which is (almost) a drop-in re
 
 <a name="permissions"></a>
 ## Permissions
-Two permissions are added: 
+
+Two permissions are added:
+
 * `view pageviews`
 * `edit pageviews`
 
@@ -196,7 +200,7 @@ If you want to reset all your pageview counts to zero in one go, you can use the
 <a name="git"></a>
 ## Git
 
-You probably want your collected pageviews under version control. By default this file is at `storage\popular\pageviews` which is normally not ignored.
+You probably want your collected pageviews under version control. By default this file is at `storage\popular\pageviews` which is included normally.
 
 <a name="testing"></a>
 ## Testing
@@ -205,3 +209,4 @@ You can try out Popular locally. A scheduled task runs every minute to update th
 
 Popular does its best to count a pageview just once per user session. So during testing, be aware that slamming that refresh button won't increase your pageview counts :)
 
+Enjoy the addon!
