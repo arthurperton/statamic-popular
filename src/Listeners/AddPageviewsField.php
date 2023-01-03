@@ -36,19 +36,19 @@ class AddPageviewsField
             return;
         }
 
-        // TODO change this sidebar logic. Field should at least always show on
-        // the list view.
-        if (! $blueprint->hasSection('sidebar')) {
+        $contents = $blueprint->contents();
+
+        if (! ($contents['sections'] ?? null)) {
             return;
         }
 
-        $contents = $blueprint->contents();
+        $section = isset($contents['sections']['sidebar']) ? 'sidebar' : array_key_first($contents['sections']);
 
-        if (! isset($contents['sections']['sidebar']['fields'])) {
-            $contents['sections']['sidebar']['fields'] = [];
+        if (! isset($contents['sections'][$section]['fields'])) {
+            $contents['sections'][$section]['fields'] = [];
         }
 
-        $contents['sections']['sidebar']['fields'][] = [
+        $contents['sections'][$section]['fields'][] = [
             'handle' => 'pageviews',
             'field' => [
                 'type' => 'pageviews',
