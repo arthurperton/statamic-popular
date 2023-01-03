@@ -46,10 +46,10 @@ class StressRead extends Command
         while ($i < 1E10) {
 
             $items = Pageviews::all();
-            // $count = count($items);
-            $counts = $items->join(', ');
+            $count = count($items);
+            // $counts = $items->join(', ');
 
-            echo "$i -> $counts\n";
+            echo "$i -> $count\n";
 
             $i++;
 
