@@ -42,6 +42,7 @@ class ServiceProvider extends AddonServiceProvider
         Console\Commands\CreateDatabase::class,
         Console\Commands\Reset::class,
         Console\Commands\Stress::class,
+        Console\Commands\StressRead::class,
     ];
 
     protected $scripts = [
