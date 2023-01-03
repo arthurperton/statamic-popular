@@ -103,7 +103,9 @@ class LockingFileTest extends TestCase
         $stream = fopen($this->filename, 'c+');
         flock($stream, LOCK_EX);
 
-        $this->assertFalse($file->read());
+        $this->expectException(\Exception::class);
+        
+        $file->read();
 
         fclose($stream);
     }
