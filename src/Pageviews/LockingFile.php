@@ -2,6 +2,7 @@
 
 namespace ArthurPerton\Popular\Pageviews;
 
+use Illuminate\Support\Facades\Log;
 use Statamic\Facades\File;
 use Statamic\Facades\Path;
 
@@ -84,7 +85,7 @@ class LockingFile
         if (! flock($this->stream, LOCK_EX)) {
             $this->close();
 
-            \Log::debug("Couldn't get the lock!");
+            Log::debug("Couldn't get the lock!");
 
             return false;
         }
