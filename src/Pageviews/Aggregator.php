@@ -16,9 +16,7 @@ class Aggregator
 
         [$pageviews, $lastId] = $result;
 
-        if (! Pageviews::addMultiple($pageviews)) {
-            return false; // TODO error/exception?
-        }
+        Pageviews::addMultiple($pageviews);
 
         Database::deletePageViews($lastId);
 

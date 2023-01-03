@@ -25,10 +25,9 @@ class Repository
         return $this->items();
     }
 
-    public function addMultiple($pageviews): bool
+    public function addMultiple(array $pageviews): void
     {
-        // TODO throw an exception on failure?
-        return $this->update(function ($items) use ($pageviews) {
+        $this->update(function ($items) use ($pageviews) {
             collect($pageviews)->each(function ($views, $entry) use ($items) {
                 $items->put($entry, (int) $items->get($entry, 0) + $views);
             });
@@ -37,25 +36,23 @@ class Repository
         });
     }
 
-    public function setMultiple($pageviews): bool
+    public function setMultiple(array $pageviews): void
     {
-        // TODO throw an exception on failure?
-        return $this->update(function ($items) use ($pageviews) {
+        $this->update(function ($items) use ($pageviews) {
             return $items->merge($pageviews);
         });
     }
 
-    public function deleteMultiple($ids): bool
+    public function deleteMultiple(array $ids): void
     {
-        // TODO throw an exception on failure?
-        return $this->update(function ($items) use ($ids) {
+        $this->update(function ($items) use ($ids) {
             return $items->forget($ids);
         });
     }
 
-    protected function update(callable $callback): bool
+    protected function update(callable $callback): void
     {
-        return $this->file->modify(function ($data) use ($callback) {
+        $this->file->modify(function ($data) use ($callback) {
             $this->items = $callback(collect($data ?: []));
 
             return $this->items->all();
