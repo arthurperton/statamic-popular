@@ -9,7 +9,7 @@ use Statamic\Facades\Path;
 class LockingFile
 {
     protected $filename;
-    protected $attempts = 10;
+    protected $attempts = 20;
 
     public function __construct($filename)
     {
@@ -101,7 +101,7 @@ class LockingFile
                 return true;
             }
 
-            usleep(round(rand(0, 100) * 1000)); // 0-100 milliseconds
+            usleep(round(rand(0, 10) * 1000)); // 0-10 milliseconds
         }
 
         return false;
