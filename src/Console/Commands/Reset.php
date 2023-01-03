@@ -72,7 +72,7 @@ class Reset extends Command
 
     private function collections(): \Illuminate\Support\Collection
     {
-        return Collection::handles(); // TODO only configured?
+        return Collection::handles();
     }
 
     private function collectionExists($collection): bool
