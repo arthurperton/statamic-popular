@@ -4,6 +4,7 @@ namespace ArthurPerton\Popular\Console\Commands;
 
 use ArthurPerton\Popular\Pageviews\Aggregator;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class Aggregate extends Command
 {
@@ -42,6 +43,7 @@ class Aggregate extends Command
 
         if ($result !== false) {
             $this->info("$result pageviews aggregated");
+            Log::debug("$result pageviews aggregated");
 
             return 0;
         }

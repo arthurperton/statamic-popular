@@ -4,6 +4,7 @@ namespace ArthurPerton\Popular\Pageviews;
 
 use ArthurPerton\Popular\Facades\Database;
 use ArthurPerton\Popular\Facades\Pageviews;
+use Illuminate\Support\Facades\Log;
 
 class Aggregator
 {
@@ -11,12 +12,14 @@ class Aggregator
     {
         $result = Database::getGroupedPageviews();
         if (! $result) {
+            Log::debug('Aggregator: No pageviews found');
             return 0;
         }
 
         [$pageviews, $lastId] = $result;
 
         if (! Pageviews::addMultiple($pageviews)) {
+            Log::debug('Aggregator: Error adding pageviews');
             return false; // TODO error/exception?
         }
 
