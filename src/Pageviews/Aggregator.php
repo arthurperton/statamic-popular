@@ -18,12 +18,9 @@ class Aggregator
 
         [$pageviews, $lastId] = $result;
 
-        if (! Pageviews::addMultiple($pageviews)) {
-            Log::debug('Aggregator: Error adding pageviews');
-            return false; // TODO error/exception?
-        }
+        Pageviews::addMultiple($pageviews);
 
-        Database::deletePageViews($lastId); // TODO what if this fails
+        Database::deletePageViews($lastId);
 
         return collect($pageviews)->sum();
     }

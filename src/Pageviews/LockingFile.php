@@ -2,21 +2,21 @@
 
 namespace ArthurPerton\Popular\Pageviews;
 
-use Illuminate\Support\Facades\Log;
+use Exception;
 use Statamic\Facades\File;
 use Statamic\Facades\Path;
 
 class LockingFile
 {
     protected $filename;
-    protected $attempts = 10;
+    protected $attempts = 20;
 
     public function __construct($filename)
     {
         $this->filename = $filename;
     }
 
-    public function read()
+    public function read(): mixed
     {
         if ($data = $this->readString()) {
             $data = unserialize($data);
@@ -25,11 +25,9 @@ class LockingFile
         return $data;
     }
 
-    public function readString()
+    public function readString(): string
     {
-        if (! $this->open()) {
-            return false;
-        }
+        $this->open();
 
         $serialized = $this->readStringFromStream();
 
@@ -38,29 +36,23 @@ class LockingFile
         return $serialized;
     }
 
-    public function write($data)
+    public function write($data): void
     {
-        return $this->writeString(serialize($data));
+        $this->writeString(serialize($data));
     }
 
-    public function writeString($string)
+    public function writeString(string $string): void
     {
-        if (! $this->open()) {
-            return false;
-        }
+        $this->open();
 
         $this->writeStringToStream($string);
 
         $this->close();
-
-        return true;
     }
 
-    public function modify(callable $callback)
+    public function modify(callable $callback): void
     {
-        if (! $this->open()) {
-            return false;
-        }
+        $this->open();
 
         $data = $this->readDataFromStream();
 
@@ -69,29 +61,21 @@ class LockingFile
         $this->writeDataToStream($data);
 
         $this->close();
-
-        return true;
     }
 
-    protected function open()
+    protected function open(): void
     {
         File::makeDirectory(Path::directory($this->filename));
 
         if (! $this->stream = fopen($this->filename, 'c+')) {
-            dd("Unable to open file {$this->filename}"); // TODO throw error
-
-            return false;
+            throw new Exception("Unable to open file {$this->filename}");
         }
 
         if (! $this->lock()) {
             $this->close();
 
-            Log::debug("Couldn't get the lock!");
-
-            return false;
+            throw new Exception("Unable to acquire a lock for file {$this->filename}");
         }
-
-        return true;
     }
 
     protected function lock(): bool
@@ -101,30 +85,30 @@ class LockingFile
                 return true;
             }
 
-            usleep(round(rand(0, 100) * 1000)); // 0-100 milliseconds
+            usleep(round(rand(0, 10) * 1000)); // 0-10 milliseconds
         }
 
         return false;
     }
 
-    protected function readDataFromStream()
+    protected function readDataFromStream(): mixed
     {
         $serialized = $this->readStringFromStream();
 
         return unserialize($serialized);
     }
 
-    protected function writeDataToStream($data)
+    protected function writeDataToStream(mixed $data): void
     {
         $this->writeStringToStream(serialize($data));
     }
 
-    protected function readStringFromStream()
+    protected function readStringFromStream(): string
     {
         return fgets($this->stream);
     }
 
-    protected function writeStringToStream($string)
+    protected function writeStringToStream(string $string): void
     {
         ftruncate($this->stream, 0);
         rewind($this->stream);
@@ -132,7 +116,7 @@ class LockingFile
         fflush($this->stream);
     }
 
-    protected function close()
+    protected function close(): void
     {
         fclose($this->stream); // NOTE this releases the lock too.
     }
