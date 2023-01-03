@@ -9,6 +9,7 @@ use Statamic\Facades\Path;
 class LockingFile
 {
     protected $filename;
+    protected $attempts = 10;
 
     public function __construct($filename)
     {
@@ -77,12 +78,12 @@ class LockingFile
         File::makeDirectory(Path::directory($this->filename));
 
         if (! $this->stream = fopen($this->filename, 'c+')) {
-            dd("Unable to open file {$this->filename}");
+            dd("Unable to open file {$this->filename}"); // TODO throw error
 
             return false;
         }
 
-        if (! flock($this->stream, LOCK_EX)) {
+        if (! $this->lock()) {
             $this->close();
 
             Log::debug("Couldn't get the lock!");
@@ -91,6 +92,19 @@ class LockingFile
         }
 
         return true;
+    }
+
+    protected function lock(): bool
+    {
+        for ($i = 0; $i < $this->attempts; $i++) {
+            if (flock($this->stream, LOCK_EX | LOCK_NB)) {
+                return true;
+            }
+
+            usleep(round(rand(0, 100) * 1000)); // 0-100 milliseconds
+        }
+
+        return false;
     }
 
     protected function readDataFromStream()
