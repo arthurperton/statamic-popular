@@ -18,6 +18,7 @@ Popular registers all page views for individual pages and entries.
 - Adds a computed field to your entries
 - Includes a dedicated tag 
 - Dashboard widget
+- Can be configured to track unique pageviews only
 
 ## Documentation
 

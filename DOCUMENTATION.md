@@ -39,6 +39,12 @@ Basic setup requires one step: add the Popular Script Tag just before your `</bo
 
 Popular will start tracking pageviews now. The total counts will be updated every minute.
 
+You can optionally use the `unique` parameter to track unique pageviews only:
+ 
+```antlers
+{{ popular_script unique="true" }}
+```
+
 <a name="templating"></a>
 ## Templating
 
@@ -207,6 +213,6 @@ You probably want your collected pageviews under version control. By default thi
 
 You can try out Popular locally. A scheduled task runs every minute to update the total pageview counts, so make sure the scheduler is running. You can run it locally using `php artisan schedule:work`.
 
-Popular does its best to count a pageview just once per user session. So during testing, be aware that slamming that refresh button won't increase your pageview counts :)
+Popular does its best to count a pageview just once per user session (or ever less, when tracking unique pageviews). So during testing, be aware that slamming that refresh button won't increase your pageview counts :)
 
 Enjoy the addon!

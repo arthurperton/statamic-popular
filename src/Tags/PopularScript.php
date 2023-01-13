@@ -16,21 +16,25 @@ class PopularScript extends Tags
 
         $csrfToken = csrf_token();
 
+        $storage = ($this->params['unique'] ?? false) ? 'localStorage' : 'sessionStorage';
+
         $html = "
             <input id=\"popular-csrf-token\" type=\"hidden\" value=\"$csrfToken\" />
             <script>
                 (function(){
                     const entry = '$id';
+
+                    const storage = $storage;
                     
                     const entries = JSON.parse(
-                        sessionStorage.getItem('popular-entries') || '[]'
+                        storage.getItem('popular-entries') || '[]'
                     );
 
                     if (entries.includes(entry)) {
                         return;
                     }
 
-                    sessionStorage.setItem(
+                    storage.setItem(
                         'popular-entries', 
                         JSON.stringify([...entries, entry]),
                     );
