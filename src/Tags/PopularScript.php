@@ -16,7 +16,21 @@ class PopularScript extends Tags
 
         $csrfToken = csrf_token();
 
-        $storage = ($this->params['unique'] ?? false) ? 'localStorage' : 'sessionStorage';
+        $storage = null;
+        switch ($this->params['track'] ?? 'session') {
+            case 'every':
+            case 'always':
+                $storage = 'undefined';
+                break;
+            case 'unique':
+                $storage = 'localStorage';
+                break;
+            case 'session':
+            default:
+                $storage = 'sessionStorage';
+                break;
+        }
+
 
         $html = "
             <input id=\"popular-csrf-token\" type=\"hidden\" value=\"$csrfToken\" />
@@ -26,18 +40,20 @@ class PopularScript extends Tags
 
                     const storage = $storage;
                     
-                    const entries = JSON.parse(
-                        storage.getItem('popular-entries') || '[]'
-                    );
+                    if (storage) {
+                        const entries = JSON.parse(
+                            storage.getItem('popular-entries') || '[]'
+                        );
 
-                    if (entries.includes(entry)) {
-                        return;
+                        if (entries.includes(entry)) {
+                            return;
+                        }
+
+                        storage.setItem(
+                            'popular-entries', 
+                            JSON.stringify([...entries, entry]),
+                        );
                     }
-
-                    storage.setItem(
-                        'popular-entries', 
-                        JSON.stringify([...entries, entry]),
-                    );
 
                     const csrfToken = document.querySelector('#popular-csrf-token').value;
 
