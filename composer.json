@@ -1,6 +1,6 @@
 {
     "name": "arthurperton/popular",
-    "description": "Pageview tracker for Statamic 3",
+    "description": "Pageview tracker for Statamic 3+",
     "license": "proprietary",
     "autoload": {
         "psr-4": {
@@ -15,7 +15,7 @@
     "extra": {
         "statamic": {
             "name": "Popular",
-            "description": "Pageview tracker for Statamic 3"
+            "description": "Pageview tracker for Statamic 3+"
         },
         "laravel": {
             "providers": [
@@ -25,7 +25,7 @@
     },
     "require": {
         "php": "^7.4 || ^8.0 || ^8.1",
-        "statamic/cms": ">=3.3.48 <4"
+        "statamic/cms": ">=3.3.48"
     },
     "require-dev": {
         "laravel/pint": "^1.2",

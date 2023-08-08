@@ -38,26 +38,41 @@ class AddPageviewsField
 
         $contents = $blueprint->contents();
 
-        if (! ($contents['sections'] ?? null)) {
+        if (isset($contents['tabs'])) {
+            $this->addFieldTabs($contents);
+        } elseif (isset($contents['sections'])) {
+            $this->addFieldNoTabs($contents);
+        } else {
             return;
         }
 
+        $blueprint->setContents($contents);
+    }
+
+    private function addFieldTabs(&$contents) // V4
+    {
+        $tab = isset($contents['tabs']['sidebar']) ? 'sidebar' : array_key_first($contents['tabs']);
+
+        if (! isset($contents['tabs'][$tab]['sections'])) {
+            $contents['tabs'][$tab]['sections'] = [];
+        }
+
+        $contents['tabs'][$tab]['sections'][] = [
+            'fields' => [
+                $this->field(),
+            ],
+        ];
+    }
+
+    private function addFieldNoTabs(&$contents) // V3
+    {
         $section = isset($contents['sections']['sidebar']) ? 'sidebar' : array_key_first($contents['sections']);
 
         if (! isset($contents['sections'][$section]['fields'])) {
             $contents['sections'][$section]['fields'] = [];
         }
 
-        $contents['sections'][$section]['fields'][] = [
-            'handle' => 'pageviews',
-            'field' => [
-                'type' => 'pageviews',
-                'visibility' => 'computed',
-                'editable' => $user->can('edit pageviews'),
-            ],
-        ];
-
-        $blueprint->setContents($contents);
+        $contents['sections'][$section]['fields'][] = $this->field();
     }
 
     private function getCollection($blueprint)
@@ -71,5 +86,17 @@ class AddPageviewsField
         } else {
             return null;
         }
+    }
+
+    private function field()
+    {
+        return [
+            'handle' => 'pageviews',
+            'field' => [
+                'type' => 'pageviews',
+                'visibility' => 'computed',
+                'editable' => User::current()->can('edit pageviews'),
+            ],
+        ];
     }
 }
