@@ -39,11 +39,13 @@ Basic setup requires one step: add the Popular Script Tag just before your `</bo
 
 Popular will start tracking pageviews now. The total counts will be updated every minute.
 
-You can optionally use the `unique` parameter to track unique pageviews only:
+You can optionally use the `track` parameter to track unique pageviews only:
  
 ```antlers
-{{ popular_script unique="true" }}
+{{ popular_script track="unique" }}
 ```
+
+By default a pageview for a certain page is counted once per user session. So, for example, when a single user visits some page three days in a row, by default three pageviews will be added (one for each visit). However when `track` is set to `unique`, only the first visit is counted.
 
 <a name="templating"></a>
 ## Templating
